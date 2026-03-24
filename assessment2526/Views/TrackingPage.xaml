@@ -3,10 +3,62 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="assessment2526.Views.TrackingPage"
              Title="TrackingPage">
-    <VerticalStackLayout>
+    <VerticalStackLayout Padding="25" Spacing="20">
+      <Label 
+            Text="Tracking Your Run"
+            TextColor="White"
+            FontSize="32"
+            HorizontalOptions="Center"
+            BackgroundColor="Grey"/>
+        
+        <!-- Time -->
+        <Border Padding="15" 
+                StrokeThickness="1">
+            <Label Text="Time: 00:00:00"
+                   FontSize="20"
+                   TextColor="White"
+                   BackgroundColor="Grey"/>
+        </Border>
+
+        <!-- Distance -->
+        <Border Padding="15" 
+                StrokeThickness="1">
+            <Label Text="Distance: 0.00 km"
+                   FontSize="20" 
+                   TextColor="White"
+                   BackgroundColor="Grey"/>
+        </Border>
+
+        <!-- Speed -->
+        <Border Padding="15" 
+                StrokeThickness="1">
+            <Label Text="Speed: 0.0 km/h" 
+                   FontSize="20"
+                   TextColor="White"
+                   BackgroundColor="Grey"/>
+        </Border>
+
+        <!-- Status -->
         <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+            Text="Status: Waiting to start..."
+            HorizontalOptions="Center"
+            TextColor="White"
+            BackgroundColor="Grey"/>
+
+        <!-- Buttons -->
+        <Button 
+            Text="Start Run"
+            TextColor="White"
+            BackgroundColor="Grey"
+            HeightRequest="60"
+            FontSize="20"/>
+
+        <Button 
+            Text="Stop Run"
+            HeightRequest="60"
+            FontSize="20"
+            TextColor="Black"
+            BackgroundColor="Red"/>
+
     </VerticalStackLayout>
 </ContentPage>
