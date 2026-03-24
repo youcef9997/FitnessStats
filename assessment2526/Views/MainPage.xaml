@@ -4,21 +4,34 @@
              x:Class="assessment2526.MainPage">
 
     <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-            <Image
-                Source="dotnet_bot.png"
-                HeightRequest="185"
-                Aspect="AspectFit"
-                SemanticProperties.Description="dot net bot in a hovercraft number nine" />
+        <VerticalStackLayout Padding="30" Spacing="25">
 
-            <Label
-                Text="MyFitnessStats"
-                FontSize="32"
-                HorizontalOptions="Center" />
-            <Button
-                Text="Start Tracking" />    
+            <Label 
+        Text="MyFitnessStats"
+        FontSize="32"
+        HorizontalOptions="Center"/>
+
+            <Button 
+        Text="Start Run"
+        TextColor="White"
+        FontSize="20"
+        HeightRequest="60"
+        BackgroundColor="Grey"/>
+
+            <Button 
+        Text="View History"
+        TextColor="White"
+        FontSize="20"
+        HeightRequest="60"
+        BackgroundColor="Grey"/>
+
+            <Button 
+        Text="Settings"
+        TextColor="White"
+        FontSize="20"
+        HeightRequest="60"
+        BackgroundColor="Grey"/>
+
         </VerticalStackLayout>
     </ScrollView>
 
