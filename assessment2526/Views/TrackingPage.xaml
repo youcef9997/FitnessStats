@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:assessment2526.ViewModels"
              x:Class="assessment2526.Views.TrackingPage"
+             x:DataType="vm:TrackingViewModel"
              Title="TrackingPage">
+    
     <VerticalStackLayout Padding="25" Spacing="20">
       <Label 
             Text="Tracking Your Run"

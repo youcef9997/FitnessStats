@@ -11,7 +11,12 @@ public class MainViewModel
     {
         StartRunCommand = new Command(async () =>
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new TrackingPage());
+            var page = Application.Current?.Windows[0]?.Page;
+
+            if (page != null)
+            {
+                await page.Navigation.PushAsync(new TrackingPage());
+            }
         });
     }
 }
