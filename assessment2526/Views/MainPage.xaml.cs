@@ -1,4 +1,4 @@
-﻿using assessment2526.Views;
+﻿using assessment2526.ViewModels;
 namespace assessment2526;
 
 public partial class MainPage : ContentPage
@@ -6,11 +6,8 @@ public partial class MainPage : ContentPage
     public MainPage()
     {
         InitializeComponent();
+        BindingContext = new MainViewModel();
     }
 
-    // Navigate to Tracking Page
-    private async void OnStartRun(object sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new TrackingPage());
-    }
+    
 }
