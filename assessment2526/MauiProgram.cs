@@ -15,6 +15,7 @@ namespace assessment2526
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
             builder.UseMauiMaps();
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
