@@ -5,14 +5,9 @@ using Microsoft.Maui.Devices.Sensors;
 
 namespace assessment2526.ViewModels;
 
-public class TrackingViewModel : INotifyPropertyChanged
+public partial class TrackingViewModel : INotifyPropertyChanged
 {
     //Fields
-    private string _timeText = "Time: 00:00:00";
-    private string _distanceText = "Distance: 0.00 km";
-    private string _speedText = "Speed: 0.0 km/h";
-    private string _statusText = "Status: Waiting to start...";
-
     private bool _isRunning = false;
     private int _seconds = 0;
 
@@ -22,25 +17,34 @@ public class TrackingViewModel : INotifyPropertyChanged
 
     private readonly IConnectivity _connectivity;
     private readonly IGeolocation _geolocation;
-    //Properties 
+    
+    //Properties
+
+    private string _timeText = "Time: 00:00:00";
     public string TimeText
     {
         get => _timeText;
         set { _timeText = value; OnPropertyChanged(); }
     }
 
+
+    private string _distanceText = "Distance: 0.00 km";
     public string DistanceText
     {
         get => _distanceText;
         set { _distanceText = value; OnPropertyChanged(); }
     }
 
+
+    private string _speedText = "Speed: 0.0 km/h";
     public string SpeedText
     {
         get => _speedText;
         set { _speedText = value; OnPropertyChanged(); }
     }
 
+
+    private string _statusText = "Status: Waiting to start...";
     public string StatusText
     {
         get => _statusText;
@@ -115,6 +119,13 @@ public class TrackingViewModel : INotifyPropertyChanged
 
     private async void LoadLocation()
     {
+        var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+
+        if (status != PermissionStatus.Granted)
+        {
+            StatusText = "Location permission denied";
+            return;
+        }
         try
         {
             //check connectivity
@@ -165,7 +176,7 @@ public class TrackingViewModel : INotifyPropertyChanged
     //Property change notification
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    protected void OnPropertyChanged([CallerMemberName] string? name = null)
+    protected void OnPropertyChanged([CallerMemberName] string name = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }

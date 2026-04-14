@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using assessment2526.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace assessment2526
 {
@@ -17,7 +18,7 @@ namespace assessment2526
 
             builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
             builder.Services.AddSingleton<IGeolocation>(Geolocation.Default);
-
+            builder.Services.AddTransient<TrackingViewModel>();
             builder.UseMauiMaps();
 
 #if DEBUG

@@ -9,24 +9,25 @@ namespace assessment2526.Views;
 
 public partial class TrackingPage : ContentPage
 {
-    private TrackingViewModel _viewModel;
+    private TrackingViewModel? _viewModel;
     public TrackingPage()
 	{
 		InitializeComponent();
-        _viewModel = new TrackingViewModel();
+
+        _viewModel = new TrackingViewModel(Connectivity.Current, Geolocation.Default);
         BindingContext = _viewModel;
     }
 
  protected override void OnAppearing()
     {
         base.OnAppearing();
-
         UpdateMap();
     }
 
     private async void UpdateMap()
     {
-        await Task.Delay(1000); // wait for location
+        if (_viewModel == null)
+            return;
 
         if (_viewModel.Latitude != 0 && _viewModel.Longitude != 0)
         {
