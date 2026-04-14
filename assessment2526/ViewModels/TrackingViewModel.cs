@@ -1,7 +1,8 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.Maui.Devices.Sensors;
+using Microsoft.Maui.Maps;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using Microsoft.Maui.Devices.Sensors;
 
 namespace assessment2526.ViewModels;
 
@@ -67,9 +68,10 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     public ICommand StartCommand { get; }
     public ICommand StopCommand { get; }
 
+
     public TrackingViewModel(IConnectivity connectivity, IGeolocation geolocation)
     {
-        StartCommand = new Command(StartRun);
+        StartCommand = new Command(async () => await StartRun());
         StopCommand = new Command(StopRun);
 
         _connectivity = connectivity;
@@ -78,7 +80,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     }
 
     //Start run
-    private void StartRun()
+    private async Task StartRun()
     {
         if (_isRunning)
             return;
@@ -87,6 +89,10 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         StatusText = "Status: Running...";
 
         StartTimer();
+        await SpeakAsync("Run started");
+
+        //when distance updates text-to-speech to user
+        await SpeakAsync("Distance updated");
     }
 
     //Stop run
@@ -172,6 +178,14 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         }
 
     }
+
+
+    //text-to-speech function
+    public async Task SpeakAsync(string text)
+    {
+        await TextToSpeech.Default.SpeakAsync(text);
+    }
+
 
     //Property change notification
     public event PropertyChangedEventHandler? PropertyChanged;
