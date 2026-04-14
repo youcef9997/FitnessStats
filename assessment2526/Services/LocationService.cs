@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Maui.Devices.Sensors;
+﻿using Microsoft.Maui.Devices.Sensors;
 
-namespace assessment2526.Services
+namespace assessment2526.Services;
+
+public class LocationService
 {
-    public class LocationService
+    public async Task<Location?> GetCurrentLocationAsync()
     {
-        public async Task<Location?> GetCurrentLocationAsync()
+        try
         {
-            try
-            {
-                var request = new GeolocationRequest(GeolocationAccuracy.High);
-                return await Geolocation.Default.GetLocationAsync(request);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            var request = new GeolocationRequest(
+                GeolocationAccuracy.Best,
+                TimeSpan.FromSeconds(10));
+
+            var location = await Geolocation.GetLocationAsync(request);
+
+            return location;
+        }
+        catch (Exception)
+        {
+            return null;
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Microsoft.Maui.Devices.Sensors;
+using assessment2526.Services;
 
 namespace assessment2526.ViewModels;
 
@@ -14,6 +16,12 @@ public class TrackingViewModel : INotifyPropertyChanged
 
     private bool _isRunning = false;
     private int _seconds = 0;
+
+    //Location fields
+    private double _latitude;
+    private double _longitude;
+
+    private readonly LocationService _locationService;
 
     //Properties 
     public string TimeText
@@ -40,6 +48,18 @@ public class TrackingViewModel : INotifyPropertyChanged
         set { _statusText = value; OnPropertyChanged(); }
     }
 
+    public double Latitude
+    {
+        get => _latitude;
+        set { _latitude = value; OnPropertyChanged(); }
+    }
+
+    public double Longitude
+    {
+        get => _longitude;
+        set { _longitude = value; OnPropertyChanged(); }
+    }
+
     //Commands for start and stop buttons
     public ICommand StartCommand { get; }
     public ICommand StopCommand { get; }
@@ -48,6 +68,9 @@ public class TrackingViewModel : INotifyPropertyChanged
     {
         StartCommand = new Command(StartRun);
         StopCommand = new Command(StopRun);
+
+        _locationService = new LocationService();
+        LoadLocation();
     }
 
     //Start run
@@ -88,6 +111,30 @@ public class TrackingViewModel : INotifyPropertyChanged
 
             return true;
         });
+    }
+
+    private async void LoadLocation()
+    {
+        try
+        {
+            var location = await _locationService.GetCurrentLocationAsync();
+
+            if (location != null)
+            {
+                Latitude = location.Latitude;
+                Longitude = location.Longitude;
+
+                StatusText = "Location loaded";
+            }
+            else
+            {
+                StatusText = "Unable to get location";
+            }
+        }
+        catch (Exception)
+        {
+            StatusText = "Error getting location";
+        }
     }
 
     //Property change notification
