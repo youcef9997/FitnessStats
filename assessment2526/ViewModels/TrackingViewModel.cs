@@ -2,7 +2,6 @@
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Microsoft.Maui.Devices.Sensors;
-using assessment2526.Services;
 
 namespace assessment2526.ViewModels;
 
@@ -21,8 +20,8 @@ public class TrackingViewModel : INotifyPropertyChanged
     private double _latitude;
     private double _longitude;
 
-    private readonly LocationService _locationService;
-
+    private readonly IConnectivity _connectivity;
+    private readonly IGeolocation _geolocation;
     //Properties 
     public string TimeText
     {
@@ -64,12 +63,13 @@ public class TrackingViewModel : INotifyPropertyChanged
     public ICommand StartCommand { get; }
     public ICommand StopCommand { get; }
 
-    public TrackingViewModel()
+    public TrackingViewModel(IConnectivity connectivity, IGeolocation geolocation)
     {
         StartCommand = new Command(StartRun);
         StopCommand = new Command(StopRun);
 
-        _locationService = new LocationService();
+        _connectivity = connectivity;
+        _geolocation = geolocation;
         LoadLocation();
     }
 
@@ -117,24 +117,49 @@ public class TrackingViewModel : INotifyPropertyChanged
     {
         try
         {
-            var location = await _locationService.GetCurrentLocationAsync();
+            //check connectivity
+            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                await Shell.Current.DisplayAlert(
+                    "No connectivity!",
+                    "Please check internet and try again.",
+                    "OK");
+
+                StatusText = "No internet connection";
+                return;
+            }
+
+            //get last known location first
+            var location = await _geolocation.GetLastKnownLocationAsync();
+
+            if (location == null)
+            {
+                location = await _geolocation.GetLocationAsync(
+                    new GeolocationRequest
+                    {
+                        DesiredAccuracy = GeolocationAccuracy.Medium,
+                        Timeout = TimeSpan.FromSeconds(10)
+                    });
+            }
 
             if (location != null)
             {
                 Latitude = location.Latitude;
                 Longitude = location.Longitude;
 
-                StatusText = "Location loaded";
+                StatusText = $"Lat: {Latitude}, Lon: {Longitude}";
             }
             else
             {
                 StatusText = "Unable to get location";
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             StatusText = "Error getting location";
+            System.Diagnostics.Debug.WriteLine($"Location error: {ex.Message}");
         }
+
     }
 
     //Property change notification
