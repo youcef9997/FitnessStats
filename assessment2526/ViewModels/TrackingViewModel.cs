@@ -1,5 +1,6 @@
 ﻿using Microsoft.Maui.Devices.Sensors;
 using Microsoft.Maui.Maps;
+using Microsoft.Maui.Devices;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -72,7 +73,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     public TrackingViewModel(IConnectivity connectivity, IGeolocation geolocation)
     {
         StartCommand = new Command(async () => await StartRun());
-        StopCommand = new Command(StopRun);
+        StopCommand = new Command(async () => await StopRun());
 
         _connectivity = connectivity;
         _geolocation = geolocation;
@@ -88,18 +89,26 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         _isRunning = true;
         StatusText = "Status: Running...";
 
+        //haptic feedback on start
+        Vibrate();
+
         StartTimer();
         await SpeakAsync("Run started");
 
         //when distance updates text-to-speech to user
-        await SpeakAsync("Distance updated");
+        await SpeakAsync($"Distance {DistanceText}");
     }
 
     //Stop run
-    private void StopRun()
+    private async Task StopRun()
     {
         _isRunning = false;
         StatusText = "Status: Stopped";
+
+        // stronger haptic feedback on stop
+        Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(600));
+
+        await SpeakAsync("Run stopped");
     }
 
     //Timer logic
@@ -186,6 +195,13 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         await TextToSpeech.Default.SpeakAsync(text);
     }
 
+
+    //haptic feedback function
+    public void Vibrate()
+    {
+        Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(300));
+
+    }
 
     //Property change notification
     public event PropertyChangedEventHandler? PropertyChanged;
