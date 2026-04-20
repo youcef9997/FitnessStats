@@ -7,7 +7,8 @@
              x:DataType="vm:TrackingViewModel"
              Title="TrackingPage">
 
-    <VerticalStackLayout Padding="25" Spacing="20">
+    <VerticalStackLayout Padding="25" Spacing="20"
+                         BackgroundColor="{StaticResource BackgroundColor}">
 
         <maps:Map 
             x:Name="MapView"
@@ -18,16 +19,14 @@
             Text="Tracking Your Run"
             TextColor="White"
             FontSize="32"
-            HorizontalOptions="Center"
-            BackgroundColor="Grey"/>
+            HorizontalOptions="Center"/>
         
         <!-- Time -->
         <Border Padding="15" 
-                StrokeThickness="1">
+                BackgroundColor="{StaticResource CardColor}">
             <Label Text="{Binding TimeText}"
                    FontSize="20"
-                   TextColor="White"
-                   BackgroundColor="Grey"/>
+                   TextColor="White"/>
         </Border>
 
         <!-- Distance -->
@@ -35,8 +34,7 @@
                 StrokeThickness="1">
             <Label Text="{Binding DistanceText}"
                    FontSize="20" 
-                   TextColor="White"
-                   BackgroundColor="Grey"/>
+                   TextColor="White"/>
         </Border>
 
         <!-- Speed -->
@@ -44,33 +42,31 @@
                 StrokeThickness="1">
             <Label Text="{Binding SpeedText}" 
                    FontSize="20"
-                   TextColor="White"
-                   BackgroundColor="Grey"/>
+                   TextColor="White"/>
         </Border>
 
         <!-- Status -->
         <Label 
             Text="{Binding StatusText}"
             HorizontalOptions="Center"
-            TextColor="White"
-            BackgroundColor="Grey"/>
+            TextColor="White"/>
 
-        <!-- Buttons -->
-        <Button 
-            Text="Start Run"
-            Command="{Binding StartCommand}"
-            TextColor="White"
-            BackgroundColor="Grey"
-            HeightRequest="60"
-            FontSize="20"/>
+      <Border BackgroundColor="{StaticResource CardColor}"
+        StrokeShape="RoundRectangle 20"
+        Padding="20">
 
-        <Button 
-            Text="Stop Run"
-            Command="{Binding StopCommand}"
-            HeightRequest="60"
-            FontSize="20"
-            TextColor="Black"
-            BackgroundColor="Red"/>
+        <VerticalStackLayout Spacing="15">
+
+                <!-- Buttons -->
+          <Button Text="Start Run"
+                  Command="{Binding StartCommand}"/>
+
+            <Button Text="Stop Run"
+                    Command="{Binding StopCommand}"
+                    BackgroundColor="Red"/>
+        </VerticalStackLayout>
+
+      </Border>
 
     </VerticalStackLayout>
 </ContentPage>
