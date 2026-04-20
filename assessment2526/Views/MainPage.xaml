@@ -3,37 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:assessment2526.ViewModels"
              x:Class="assessment2526.MainPage"
-             x:DataType="vm:MainViewModel">
+             x:DataType="vm:MainViewModel"
+             BackgroundColor="{StaticResource BackgroundColor}">
 
     <ScrollView>
         <VerticalStackLayout Padding="30" Spacing="25">
 
-            <Label 
-        Text="MyFitnessStats"
-        FontSize="32"
-        HorizontalOptions="Center"/> 
+            <Label  Text="MyFitnessStats"
+                    FontSize="32"
+                    HorizontalOptions="Center"
+                    FontAttributes="Bold" />
 
-            <Button 
-        Text="Start Run"
-        TextColor="White"
-        FontSize="20"
-        HeightRequest="60"
-        BackgroundColor="Grey"
-        Command="{Binding StartRunCommand}"/>
+            <!-- card view-->
+            <Border BackgroundColor="{StaticResource CardColor}"
+                    StrokeShape="RoundRectangle 20"
+                    Padding="20">
 
-            <Button 
-        Text="View History"
-        TextColor="White"
-        FontSize="20"
-        HeightRequest="60"
-        BackgroundColor="Grey"/>
+                <VerticalStackLayout Spacing="15">
 
-            <Button 
-        Text="Settings"
-        TextColor="White"
-        FontSize="20"
-        HeightRequest="60"
-        BackgroundColor="Grey"/>
+                    <Label  Text="Ready to start your run?"
+                            FontSize="18"
+                            TextColor="White"
+                            HorizontalOptions="Center" />
+
+                    <Button Text="Start Run"
+                            Command="{Binding StartRunCommand}" />
+
+                    <Button Text="View History"/>
+                    <Button Text="Settings"/>
+                </VerticalStackLayout>
+
+            </Border>
+
+            
 
         </VerticalStackLayout>
     </ScrollView>
