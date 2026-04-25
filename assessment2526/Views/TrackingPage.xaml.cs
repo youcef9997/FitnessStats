@@ -18,23 +18,13 @@ public partial class TrackingPage : ContentPage
         BindingContext = _viewModel;
     }
 
- protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        UpdateMap();
-    }
 
-    private async void UpdateMap()
-    {
-        if (_viewModel == null)
-            return;
+        //small delay to let UI load
+        await Task.Delay(300);
 
-        if (_viewModel.Latitude != 0 && _viewModel.Longitude != 0)
-        {
-            var location = new Location(_viewModel.Latitude, _viewModel.Longitude);
-
-            MapView.MoveToRegion(
-                MapSpan.FromCenterAndRadius(location, Distance.FromKilometers(1)));
-        }
+        //UpdateMap();
     }
 }

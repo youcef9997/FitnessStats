@@ -65,10 +65,31 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         set { _longitude = value; OnPropertyChanged(); }
     }
 
+    private bool _isStatsVisible = true;
+    public bool IsStatsVisible
+    {
+        get => _isStatsVisible;
+        set { _isStatsVisible = value; OnPropertyChanged(); }
+    }
+
+    private bool _isMapVisible = false;
+    public bool IsMapVisible
+    {
+        get => _isMapVisible;
+        set { _isMapVisible = value; OnPropertyChanged(); }
+    }
+    public Location CurrentLocation
+    { get; set;  }
     //Commands for start and stop buttons
     public ICommand StartCommand { get; }
     public ICommand StopCommand { get; }
 
+    //Command for toggle between stats and map
+    public ICommand ToggleViewCommand => new Command(() =>
+    {
+        IsStatsVisible = !IsStatsVisible;
+        IsMapVisible = !IsMapVisible;
+    });
 
     public TrackingViewModel(IConnectivity connectivity, IGeolocation geolocation)
     {
@@ -172,7 +193,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
             {
                 Latitude = location.Latitude;
                 Longitude = location.Longitude;
-
+                CurrentLocation = location;
                 StatusText = $"Lat: {Latitude}, Lon: {Longitude}";
             }
             else
