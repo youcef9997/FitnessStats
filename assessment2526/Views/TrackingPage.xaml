@@ -6,8 +6,8 @@
              x:Class="assessment2526.Views.TrackingPage"
              x:DataType="vm:TrackingViewModel"
              Title="TrackingPage"
-             BackgroundColor="{StaticResource BackgroundColor}">
-   
+             BackgroundColor="{AppThemeBinding Light={StaticResource BackgroundLight}, Dark={StaticResource BackgroundDark}}">
+
     <VerticalStackLayout Padding="20" Spacing="15">
 
             <!-- TOGGLE BUTTON -->
