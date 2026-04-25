@@ -5,68 +5,83 @@
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
              x:Class="assessment2526.Views.TrackingPage"
              x:DataType="vm:TrackingViewModel"
-             Title="TrackingPage">
+             Title="TrackingPage"
+             BackgroundColor="{StaticResource BackgroundColor}">
 
-    <VerticalStackLayout Padding="25" Spacing="20"
-                         BackgroundColor="{StaticResource BackgroundColor}">
 
-        <maps:Map 
-            x:Name="MapView"
-            HeightRequest="300"
-            IsShowingUser="True"/>
 
-        <Label 
-            Text="Tracking Your Run"
-            TextColor="White"
-            FontSize="32"
-            HorizontalOptions="Center"/>
-        
-        <!-- Time -->
-        <Border Padding="15" 
-                BackgroundColor="{StaticResource CardColor}">
-            <Label Text="{Binding TimeText}"
-                   FontSize="20"
-                   TextColor="White"/>
-        </Border>
+    <CarouselView>
+        <CarouselView.ItemsSource>
+            <x:Array Type="{x:Type View}">
 
-        <!-- Distance -->
-        <Border Padding="15" 
-                StrokeThickness="1">
-            <Label Text="{Binding DistanceText}"
-                   FontSize="20" 
-                   TextColor="White"/>
-        </Border>
+                <!-- PAGE 1 -->
+                <ContentView>
+                    <VerticalStackLayout Padding="20" Spacing="20">
 
-        <!-- Speed -->
-        <Border Padding="15" 
-                StrokeThickness="1">
-            <Label Text="{Binding SpeedText}" 
-                   FontSize="20"
-                   TextColor="White"/>
-        </Border>
+                        <!-- TIME -->
+                        <Border BackgroundColor="{StaticResource CardColor}"
+                            StrokeShape="RoundRectangle 25"
+                            Padding="25">
+                            <Label Text="{Binding TimeText}"
+                               FontSize="48"
+                               HorizontalOptions="Center"/>
+                        </Border>
 
-        <!-- Status -->
-        <Label 
-            Text="{Binding StatusText}"
-            HorizontalOptions="Center"
-            TextColor="White"/>
+                        <!-- GRID -->
+                        <Grid ColumnDefinitions="*,*">
 
-      <Border BackgroundColor="{StaticResource CardColor}"
-        StrokeShape="RoundRectangle 20"
-        Padding="20">
+                            <Border Grid.Column="0"
+                                BackgroundColor="{StaticResource CardColor}"
+                                StrokeShape="RoundRectangle 20"
+                                Margin="5">
+                                <VerticalStackLayout Padding="15">
+                                    <Label Text="Distance"/>
+                                    <Label Text="{Binding DistanceText}" FontSize="28"/>
+                                </VerticalStackLayout>
+                            </Border>
 
-        <VerticalStackLayout Spacing="15">
+                            <Border Grid.Column="1"
+                                BackgroundColor="{StaticResource CardColor}"
+                                StrokeShape="RoundRectangle 20"
+                                Margin="5">
+                                <VerticalStackLayout Padding="15">
+                                    <Label Text="Speed"/>
+                                    <Label Text="{Binding SpeedText}" FontSize="28"/>
+                                </VerticalStackLayout>
+                            </Border>
 
-                <!-- Buttons -->
-          <Button Text="Start Run"
-                  Command="{Binding StartCommand}"/>
+                        </Grid>
 
-            <Button Text="Stop Run"
-                    Command="{Binding StopCommand}"
-                    BackgroundColor="Red"/>
-        </VerticalStackLayout>
+                        <Label Text="{Binding StatusText}"
+                           HorizontalOptions="Center"/>
 
-      </Border>
+                        <Border BackgroundColor="{StaticResource CardColor}"
+                            StrokeShape="RoundRectangle 20"
+                            Padding="15">
+                            <VerticalStackLayout>
+                                <Button Text="Start Run"
+                                    Command="{Binding StartCommand}"/>
+                                <Button Text="Stop Run"
+                                    Command="{Binding StopCommand}"
+                                    BackgroundColor="Red"/>
+                            </VerticalStackLayout>
+                        </Border>
 
-    </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </ContentView>
+
+                <!-- PAGE 2 with full map -->
+                <ContentView>
+                    <Grid>
+                        <maps:Map x:Name="MapView"
+                              IsShowingUser="True"/>
+                    </Grid>
+                </ContentView>
+
+            </x:Array>
+        </CarouselView.ItemsSource>
+    </CarouselView>
+
 </ContentPage>
+    
+
