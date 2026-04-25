@@ -33,7 +33,7 @@
                             <Label Text="Distance"/>
                             <Label Text="{Binding DistanceText}" FontSize="28"/>
                         </VerticalStackLayout>
-                    </Border>
+                    </Border> 
 
                     <Border Grid.Column="1" BackgroundColor="{StaticResource CardColor}">
                         <VerticalStackLayout Padding="15">
