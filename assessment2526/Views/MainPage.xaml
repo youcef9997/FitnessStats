@@ -29,8 +29,11 @@
                     <Button Text="Start Run"
                             Command="{Binding StartRunCommand}" />
 
+                    <Button Text="Settings"
+                            Command="{Binding GoToSettingsCommand}" />
+                    
                     <Button Text="View History"/>
-                    <Button Text="Settings"/>
+                    
                 </VerticalStackLayout>
 
             </Border>
