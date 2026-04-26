@@ -15,7 +15,7 @@
                        FontSize="32" 
                        FontAttributes="Bold" 
                        HorizontalOptions="Center" 
-                       TextColor="White"/>
+                       TextColor="{DynamicResource TextColor}"/>
                 
                 <!-- THEME CARD -->
             <Border BackgroundColor="{DynamicResource CardColor}"
@@ -27,7 +27,7 @@
                     <Label Text="Appearance"
                            FontSize="18"
                            HorizontalOptions="Center"
-                           TextColor="White"/>
+                           TextColor="{DynamicResource TextColor}"/>
 
                     <Border BackgroundColor="{DynamicResource PrimaryColor}"
                             StrokeShape="RoundRectangle 10"
@@ -39,13 +39,13 @@
                             <Label Text="{Binding SelectedTheme}"
                                    VerticalOptions="Center"
                                    FontSize="16"
-                                   TextColor="White" />
+                                   TextColor="{DynamicResource TextColor}" />
 
                             <!-- Dropdown arrow -->
                             <Label Text="▼"
                                    Grid.Column="1"
                                    VerticalOptions="Center"
-                                   TextColor="White"
+                                   TextColor="{DynamicResource TextColor}"
                                    FontSize="14" />
 
                             

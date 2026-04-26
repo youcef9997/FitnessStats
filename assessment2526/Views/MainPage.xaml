@@ -13,7 +13,7 @@
                     FontSize="32"
                     HorizontalOptions="Center"
                     FontAttributes="Bold"
-                    TextColor="White"/>
+                    TextColor="{DynamicResource TextColor}"/>
 
             <!-- card view-->
             <Border BackgroundColor="{StaticResource CardColor}"
@@ -24,7 +24,7 @@
 
                     <Label  Text="Ready to start your run?"
                             FontSize="18"
-                            TextColor="White"
+                            TextColor="{DynamicResource TextColor}"
                             HorizontalOptions="Center" />
 
                     <Button Text="Start Run"
