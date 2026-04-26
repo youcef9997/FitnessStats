@@ -24,7 +24,7 @@
     </Style>
 
     <Style TargetType="Button">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={DynamicResource White}, Dark={StaticResource PrimaryDarkText}}" />
+        <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
         <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="16"/>
@@ -161,7 +161,7 @@
     </Style>
 
     <Style TargetType="Label" BasedOn="{StaticResource BaseLabel}">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />

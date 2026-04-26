@@ -12,7 +12,8 @@
             <Label  Text="MyFitnessStats"
                     FontSize="32"
                     HorizontalOptions="Center"
-                    FontAttributes="Bold" />
+                    FontAttributes="Bold"
+                    TextColor="White"/>
 
             <!-- card view-->
             <Border BackgroundColor="{StaticResource CardColor}"

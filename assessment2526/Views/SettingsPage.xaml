@@ -3,19 +3,65 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:assessment2526.ViewModels"
              x:Class="assessment2526.Views.SettingsPage"
+             x:DataType="vm:SettingsViewModel"
              Title="SettingsPage"
              BackgroundColor="{DynamicResource BackgroundColor}">
 
+        <ScrollView>
+            <VerticalStackLayout Padding="30" Spacing="25">
 
-    <VerticalStackLayout Padding="20" Spacing="20">
-        <Label 
-            Text="Theme"
-            FontSize="20" 
-            HorizontalOptions="Center" />
+                <!-- HEADER -->
+                <Label Text="Settings" 
+                       FontSize="32" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" 
+                       TextColor="White"/>
+                
+                <!-- THEME CARD -->
+            <Border BackgroundColor="{DynamicResource CardColor}"
+                        StrokeShape="RoundRectangle 20"
+                        Padding="20">
 
-        <Picker Title="Select Theme"
-                ItemsSource="{Binding Themes}"
-                SelectedItem="{Binding SelectedTheme}" />
+                <VerticalStackLayout Spacing="15">
 
-    </VerticalStackLayout>
-</ContentPage>
+                    <Label Text="Appearance"
+                           FontSize="18"
+                           HorizontalOptions="Center"
+                           TextColor="White"/>
+
+                    <Border BackgroundColor="{DynamicResource PrimaryColor}"
+                            StrokeShape="RoundRectangle 10"
+                            Padding="10">
+
+                        <Grid ColumnDefinitions="*,Auto">
+
+                            <!-- Selected value -->
+                            <Label Text="{Binding SelectedTheme}"
+                                   VerticalOptions="Center"
+                                   FontSize="16"
+                                   TextColor="White" />
+
+                            <!-- Dropdown arrow -->
+                            <Label Text="▼"
+                                   Grid.Column="1"
+                                   VerticalOptions="Center"
+                                   TextColor="White"
+                                   FontSize="14" />
+
+                            
+                            
+                            <!-- Hidden Picker on top -->
+                            <Picker ItemsSource="{Binding Themes}"
+                                    SelectedItem="{Binding SelectedTheme}"
+                                    Opacity="0.01"
+                                    Grid.ColumnSpan="2" />
+
+                        </Grid>
+                    </Border>
+
+
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage>
