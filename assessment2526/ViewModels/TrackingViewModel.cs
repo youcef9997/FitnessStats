@@ -19,7 +19,10 @@ public partial class TrackingViewModel : INotifyPropertyChanged
 
     private readonly IConnectivity _connectivity;
     private readonly IGeolocation _geolocation;
-    
+
+    private bool _isAccelerometerRunning = false;
+
+
     //Properties
 
     private string _timeText = "Time: 00:00:00";
@@ -78,7 +81,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         get => _isMapVisible;
         set { _isMapVisible = value; OnPropertyChanged(); }
     }
-    public Location CurrentLocation
+    public Location? CurrentLocation
     { get; set;  }
     //Commands for start and stop buttons
     public ICommand StartCommand { get; }
@@ -118,6 +121,9 @@ public partial class TrackingViewModel : INotifyPropertyChanged
 
         //when distance updates text-to-speech to user
         await SpeakAsync($"Distance {DistanceText}");
+
+        //start accelerometer
+        StartAccelerometer();
     }
 
     //Stop run
@@ -130,6 +136,9 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(600));
 
         await SpeakAsync("Run stopped");
+
+        //stop accelerometer
+        StopAccelerometer();
     }
 
     //Timer logic
@@ -153,6 +162,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         });
     }
 
+    //location with connectivity check
     private async void LoadLocation()
     {
         var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
@@ -194,7 +204,6 @@ public partial class TrackingViewModel : INotifyPropertyChanged
                 Latitude = location.Latitude;
                 Longitude = location.Longitude;
                 CurrentLocation = location;
-                StatusText = $"Lat: {Latitude}, Lon: {Longitude}";
             }
             else
             {
@@ -223,6 +232,61 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(300));
 
     }
+
+    private void StartAccelerometer()
+    {
+        if (_isAccelerometerRunning)
+            return;
+
+        Accelerometer.ReadingChanged += OnAccelerometerChanged;
+        Accelerometer.Start(SensorSpeed.UI);
+
+        _isAccelerometerRunning = true;
+    }
+
+    private void StopAccelerometer()
+    {
+        if (!_isAccelerometerRunning)
+            return;
+
+        Accelerometer.Stop();
+        Accelerometer.ReadingChanged -= OnAccelerometerChanged;
+
+        _isAccelerometerRunning = false;
+    }
+
+    private void OnAccelerometerChanged(object? sender, AccelerometerChangedEventArgs e)
+    {
+    var data = e.Reading;
+
+    double movement =
+      Math.Abs(data.Acceleration.X) +
+    Math.Abs(data.Acceleration.Y) +
+    Math.Abs(data.Acceleration.Z);
+
+    if (movement < 0.2)
+    {
+       StatusText = "Status: Paused (No movement)";
+    }
+    else if (_isRunning)
+    {
+       StatusText = "Status: Running...";
+    }
+    }
+
+    // debug to test accelerometer data
+    //void OnAccelerometerChanged(object? sender, AccelerometerChangedEventArgs e)
+    //{
+      //  var data = e.Reading;
+
+       // double x = data.Acceleration.X;
+      //  double y = data.Acceleration.Y;
+       // double z = data.Acceleration.Z;
+
+      //  double total = Math.Sqrt(x * x + y * y + z * z);
+
+       // StatusText = $"Move: {total:F2}";
+   // }
 
     //Property change notification
     public event PropertyChangedEventHandler? PropertyChanged;

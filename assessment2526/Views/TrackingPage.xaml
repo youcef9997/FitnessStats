@@ -27,9 +27,15 @@
                        TextColor="{DynamicResource TextColor}"
                        FontSize="48"
                        HorizontalOptions="Center"/>
+                
                 </Border>
 
-                <Grid ColumnDefinitions="*,*">
+            <Label Text="{Binding StatusText}"
+       TextColor="Yellow"
+       FontSize="16"
+       HorizontalOptions="Center"/>
+
+            <Grid ColumnDefinitions="*,*">
 
                     <Border Grid.Column="0" BackgroundColor="{StaticResource CardColor}">
                         <VerticalStackLayout Padding="15">
