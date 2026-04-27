@@ -5,8 +5,7 @@
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
              x:Class="assessment2526.Views.TrackingPage"
              x:DataType="vm:TrackingViewModel"
-             Title="TrackingPage"
-             BackgroundColor="{DynamicResource BackgroundColor}">
+             Title="TrackingPage">
 
     <VerticalStackLayout Padding="20" Spacing="15">
 

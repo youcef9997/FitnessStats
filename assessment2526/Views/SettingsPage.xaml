@@ -4,8 +4,7 @@
              xmlns:vm="clr-namespace:assessment2526.ViewModels"
              x:Class="assessment2526.Views.SettingsPage"
              x:DataType="vm:SettingsViewModel"
-             Title="SettingsPage"
-             BackgroundColor="{DynamicResource BackgroundColor}">
+             Title="SettingsPage">
 
         <ScrollView>
             <VerticalStackLayout Padding="30" Spacing="25">
@@ -14,21 +13,19 @@
                 <Label Text="Settings" 
                        FontSize="32" 
                        FontAttributes="Bold" 
-                       HorizontalOptions="Center" 
-                       TextColor="{DynamicResource TextColor}"/>
-                
-                <!-- THEME CARD -->
+                       HorizontalOptions="Center" />
+            
+            <!-- THEME CARD -->
             <Border BackgroundColor="{DynamicResource CardColor}"
-                        StrokeShape="RoundRectangle 20"
-                        Padding="20">
+                    StrokeShape="RoundRectangle 20"
+                    Padding="20">
 
                 <VerticalStackLayout Spacing="15">
 
                     <Label Text="Appearance"
                            FontSize="18"
-                           HorizontalOptions="Center"
-                           TextColor="{DynamicResource TextColor}"/>
-
+                           HorizontalOptions="Center"/>
+                   
                     <Border BackgroundColor="{DynamicResource PrimaryColor}"
                             StrokeShape="RoundRectangle 10"
                             Padding="10">
@@ -38,18 +35,14 @@
                             <!-- Selected value -->
                             <Label Text="{Binding SelectedTheme}"
                                    VerticalOptions="Center"
-                                   FontSize="16"
-                                   TextColor="{DynamicResource TextColor}" />
-
+                                   FontSize="16"/>
+                           
                             <!-- Dropdown arrow -->
                             <Label Text="▼"
                                    Grid.Column="1"
                                    VerticalOptions="Center"
-                                   TextColor="{DynamicResource TextColor}"
                                    FontSize="14" />
-
-                            
-                            
+                                                      
                             <!-- Hidden Picker on top -->
                             <Picker ItemsSource="{Binding Themes}"
                                     SelectedItem="{Binding SelectedTheme}"
@@ -58,10 +51,14 @@
 
                         </Grid>
                     </Border>
-
-
+                    
                 </VerticalStackLayout>
+            
             </Border>
-        </VerticalStackLayout>
-        </ScrollView>
+                
+        
+       </VerticalStackLayout>
+        
+  </ScrollView>
+    
     </ContentPage>

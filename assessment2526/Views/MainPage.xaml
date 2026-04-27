@@ -3,43 +3,46 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:assessment2526.ViewModels"
              x:Class="assessment2526.MainPage"
-             x:DataType="vm:MainViewModel"
-             BackgroundColor="{StaticResource BackgroundColor}">
+             x:DataType="vm:MainViewModel">
 
     <ScrollView>
-        <VerticalStackLayout Padding="30" Spacing="25">
+        <VerticalStackLayout Padding="25" Spacing="25">
 
-            <Label  Text="MyFitnessStats"
-                    FontSize="32"
-                    HorizontalOptions="Center"
-                    FontAttributes="Bold"
-                    TextColor="{DynamicResource TextColor}"/>
+            <VerticalStackLayout Spacing="5">
+                <Label Text="MyFitnessStats"
+                       FontSize="34"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
 
-            <!-- card view-->
-            <Border BackgroundColor="{StaticResource CardColor}"
-                    StrokeShape="RoundRectangle 20"
-                    Padding="20">
+                <Label Text="Track your runs. Improve every day."
+                       FontSize="14"
+                       Opacity="0.7"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
 
-                <VerticalStackLayout Spacing="15">
+            
+            
+            <Border BackgroundColor="{DynamicResource CardColor}"
+                    StrokeShape="RoundRectangle 25"
+                    Padding="25">
 
-                    <Label  Text="Ready to start your run?"
-                            FontSize="18"
-                            TextColor="{DynamicResource TextColor}"
-                            HorizontalOptions="Center" />
+                <VerticalStackLayout Spacing="20">
+
+                    <Label Text="Ready to start your run?"
+                           FontSize="18"
+                           HorizontalOptions="Center" />
 
                     <Button Text="Start Run"
                             Command="{Binding StartRunCommand}" />
 
                     <Button Text="Settings"
                             Command="{Binding GoToSettingsCommand}" />
-                    
-                    <Button Text="View History"/>
-                    
-                </VerticalStackLayout>
 
+                    <Button Text="View History" />
+
+                </VerticalStackLayout>
             </Border>
 
-            
 
         </VerticalStackLayout>
     </ScrollView>

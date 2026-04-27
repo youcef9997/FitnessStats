@@ -14,9 +14,9 @@
     </Style>
 
     <Style TargetType="Border">
-        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="StrokeShape" Value="Rectangle"/>
-        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="BackgroundColor"
+            Value="{AppThemeBinding Light=#F5F5F5, Dark=#1E1E1E}" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 20"/>
     </Style>
 
     <Style TargetType="BoxView">
@@ -157,11 +157,12 @@
 
     <Style x:Key="BaseLabel" TargetType="Label">
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
-        <Setter Property="TextColor" Value="{DynamicResource TextColor}"/>
+        <Setter Property="TextColor" 
+            Value="{AppThemeBinding Light=Black, Dark=White}" />
     </Style>
 
     <Style TargetType="Label" BasedOn="{StaticResource BaseLabel}">
-        <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
+        
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
@@ -180,17 +181,22 @@
     </Style>
 
     <Style TargetType="Label" x:Key="Headline">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MidnightBlue}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
         <Setter Property="FontSize" Value="32" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
     <Style TargetType="Label" x:Key="SubHeadline">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MidnightBlue}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
         <Setter Property="FontSize" Value="24" />
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <Style TargetType="ContentPage">
+        <Setter Property="BackgroundColor"
+            Value="{AppThemeBinding Light=White, Dark=#121212}" />
     </Style>
 
     <Style TargetType="ListView">
@@ -368,7 +374,7 @@
     </Style>
 
     <Style TargetType="TimePicker">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{DynamicResource TextColor}" />
         <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>

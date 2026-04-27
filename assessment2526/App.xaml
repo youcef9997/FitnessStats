@@ -5,26 +5,6 @@
              x:Class="assessment2526.App">
     <Application.Resources>
         <ResourceDictionary>
-           <!--  <Color x:Key="PrimaryColor">#1E88E5</Color>
-            <Color x:Key="SecondaryColor">#1565C0</Color>
-            <Color x:Key="BackgroundColor">#121212</Color>
-            <Color x:Key="CardColor">#1E1E1E</Color>
-            <Color x:Key="TextColor">White</Color>  -->
-            
-            <!-- buttons style
-            <Style TargetType="Button">
-                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryColor}" />
-                <Setter Property="TextColor" Value="White" />
-                <Setter Property="CornerRadius" Value="15" />
-                <Setter Property="HeightRequest" Value="60" />
-                <Setter Property="FontSize" Value="18" />
-            </Style>
-
-            <Style TargetType="Label">
-                <Setter Property="TextColor" Value="{StaticResource TextColor}" />
-                <Setter Property="FontFamily" Value="OpenSansRegular" />
-            </Style>   -->
-
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
