@@ -17,6 +17,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     private double _latitude;
     private double _longitude;
 
+    //Connectivity and geolocation
     private readonly IConnectivity _connectivity;
     private readonly IGeolocation _geolocation;
 
@@ -25,11 +26,10 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     private bool _isPaused = false;
     private int _noMovementSeconds = 0;
     //Seconds of no movement to consider pause
-    private const int PauseThreshold = 5; 
-
+    private const int PauseThreshold = 5;
+    private bool _timerRunning = false;
 
     //Properties
-
     private string _timeText = "Time: 00:00:00";
     public string TimeText
     {
@@ -53,7 +53,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         set { _speedText = value; OnPropertyChanged(); }
     }
 
-
+        
     private string _statusText = "Status: Waiting to start...";
     public string StatusText
     {
@@ -61,18 +61,21 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         set { _statusText = value; OnPropertyChanged(); }
     }
 
+    
     public double Latitude
     {
         get => _latitude;
         set { _latitude = value; OnPropertyChanged(); }
     }
 
+    
     public double Longitude
     {
         get => _longitude;
         set { _longitude = value; OnPropertyChanged(); }
     }
 
+    
     private bool _isStatsVisible = true;
     public bool IsStatsVisible
     {
@@ -80,6 +83,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         set { _isStatsVisible = value; OnPropertyChanged(); }
     }
 
+    
     private bool _isMapVisible = false;
     public bool IsMapVisible
     {
@@ -87,7 +91,11 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         set { _isMapVisible = value; OnPropertyChanged(); }
     }
     public Location? CurrentLocation
-    { get; set;  }
+    { 
+        get;
+        set;
+    }
+    
     //Commands for start and stop buttons
     public ICommand StartCommand { get; }
     public ICommand StopCommand { get; }
@@ -149,6 +157,11 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     //Timer logic
     private void StartTimer()
     {
+        if (_timerRunning)
+            return; 
+
+        _timerRunning = true;
+
         var dispatcher = Application.Current?.Dispatcher;
 
         if (dispatcher == null)
@@ -156,8 +169,16 @@ public partial class TrackingViewModel : INotifyPropertyChanged
 
         dispatcher.StartTimer(TimeSpan.FromSeconds(1), () =>
         {
+            
             if (!_isRunning)
+            {
+                _timerRunning = false;
                 return false;
+            }
+
+            //pause logic
+            if (_isPaused)
+                return true; //keep timer alive but DO NOT increment
 
             _seconds++;
 
@@ -167,7 +188,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         });
     }
 
-    //location with connectivity check
+    //Location with connectivity check
     private async void LoadLocation()
     {   
         //location permission request
@@ -225,20 +246,21 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     }
 
 
-    //text-to-speech function
+    //Text-to-speech function
     public async Task SpeakAsync(string text)
     {
         await TextToSpeech.Default.SpeakAsync(text);
     }
 
 
-    //haptic feedback function
+    //Haptic feedback function
     public void Vibrate()
     {
         Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(300));
 
     }
 
+    //Accelerometer 
     private void StartAccelerometer()
     {
         if (_isAccelerometerRunning)
