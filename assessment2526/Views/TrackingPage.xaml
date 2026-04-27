@@ -31,9 +31,9 @@
                 </Border>
 
             <Label Text="{Binding StatusText}"
-       TextColor="Yellow"
-       FontSize="16"
-       HorizontalOptions="Center"/>
+                   TextColor="{DynamicResource TextColor}"
+                   FontSize="16"
+                   HorizontalOptions="Center"/>
 
             <Grid ColumnDefinitions="*,*">
 

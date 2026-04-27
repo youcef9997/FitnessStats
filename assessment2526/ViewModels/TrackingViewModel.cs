@@ -20,7 +20,12 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     private readonly IConnectivity _connectivity;
     private readonly IGeolocation _geolocation;
 
+    //Accelerometer fields
     private bool _isAccelerometerRunning = false;
+    private bool _isPaused = false;
+    private int _noMovementSeconds = 0;
+    //Seconds of no movement to consider pause
+    private const int PauseThreshold = 5; 
 
 
     //Properties
@@ -164,7 +169,8 @@ public partial class TrackingViewModel : INotifyPropertyChanged
 
     //location with connectivity check
     private async void LoadLocation()
-    {
+    {   
+        //location permission request
         var status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
 
         if (status != PermissionStatus.Granted)
@@ -174,7 +180,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         }
         try
         {
-            //check connectivity
+            //check network connectivity
             if (_connectivity.NetworkAccess != NetworkAccess.Internet)
             {
                 await Shell.Current.DisplayAlert(
@@ -260,18 +266,34 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     var data = e.Reading;
 
     double movement =
-      Math.Abs(data.Acceleration.X) +
-    Math.Abs(data.Acceleration.Y) +
-    Math.Abs(data.Acceleration.Z);
+             Math.Sqrt(
+        data.Acceleration.X * data.Acceleration.X +
+        data.Acceleration.Y * data.Acceleration.Y +
+        data.Acceleration.Z * data.Acceleration.Z);
 
-    if (movement < 0.2)
-    {
-       StatusText = "Status: Paused (No movement)";
-    }
-    else if (_isRunning)
-    {
-       StatusText = "Status: Running...";
-    }
+        // threshold to detect movement
+        if (movement > 1.2)
+        {
+            _noMovementSeconds = 0;
+
+            if (_isPaused)
+            {
+                _isPaused = false;
+                StatusText = "Status: Running (resumed)";
+                StartTimer();
+            }
+        }
+        else
+        {
+            _noMovementSeconds++;
+
+            if (_noMovementSeconds >= PauseThreshold && !_isPaused)
+            {
+                _isPaused = true;
+                StatusText = "Status: Paused (no movement)";
+               
+            }
+        }
     }
 
     // debug to test accelerometer data
