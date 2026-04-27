@@ -152,6 +152,19 @@ public partial class TrackingViewModel : INotifyPropertyChanged
 
         //stop accelerometer
         StopAccelerometer();
+
+        //display a summary of the
+        var page = Application.Current?.Windows[0]?.Page;
+
+        if (page != null)
+        {
+            await page.DisplayAlert(
+                "🏃 Run Summary",
+                $"⏱ Time: {TimeText.Replace("Time: ", "")}\n" +
+                $"📍 Distance: {DistanceText.Replace("Distance: ", "")}\n" +
+                $"⚡ Speed: {SpeedText.Replace("Speed: ", "")}",
+                "OK");
+        }
     }
 
     //Timer logic
