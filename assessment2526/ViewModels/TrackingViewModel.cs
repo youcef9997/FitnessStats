@@ -659,9 +659,22 @@ public partial class TrackingViewModel : INotifyPropertyChanged
             //Send location to map route drawing
             RouteLocationAdded?.Invoke(location);
         }
-        catch
+        catch (FeatureNotSupportedException)
+        {
+            StatusText = "Status: GPS not supported on this device";
+        }
+        catch (FeatureNotEnabledException)
+        {
+            StatusText = "Status: GPS is disabled";
+        }
+        catch (PermissionException)
+        {
+            StatusText = "Status: Location permission denied";
+        }
+        catch (Exception ex)
         {
             StatusText = "Status: GPS update failed";
+            System.Diagnostics.Debug.WriteLine($"GPS error: {ex.Message}");
         }
     }
 
