@@ -470,7 +470,18 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     //Text-to-speech function
     public async Task SpeakAsync(string text)
     {
-        await TextToSpeech.Default.SpeakAsync(text);
+        try
+        {
+            Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(300));
+        }
+        catch (FeatureNotSupportedException)
+        {
+            System.Diagnostics.Debug.WriteLine("Sorry, vibration not working.");
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Vibration error: {ex.Message}");
+        }
     }
 
 
