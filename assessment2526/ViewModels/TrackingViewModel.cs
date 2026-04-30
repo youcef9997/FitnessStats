@@ -331,20 +331,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         }
     }
 
-    // debug to test accelerometer data
-    //void OnAccelerometerChanged(object? sender, AccelerometerChangedEventArgs e)
-    //{
-      //  var data = e.Reading;
-
-       // double x = data.Acceleration.X;
-      //  double y = data.Acceleration.Y;
-       // double z = data.Acceleration.Z;
-
-      //  double total = Math.Sqrt(x * x + y * y + z * z);
-
-       // StatusText = $"Move: {total:F2}";
-   // }
-
+   
     //Property change notification
     public event PropertyChangedEventHandler? PropertyChanged;
 
