@@ -35,6 +35,10 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     //Compass fields
     private bool _isCompassRunning = false;
 
+    //Live tracking on map
+    private bool _locationTimerRunning = false;
+
+
     //Properties
     private string _timeText = "Time: 00:00:00";
     public string TimeText
@@ -158,6 +162,10 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         }
     }
 
+    //Route event for live tracking on map
+    public event Action<Location>? RouteLocationAdded;
+    public event Action? RouteResetRequested;
+
 
     //Commands for start and stop buttons
     public ICommand StartCommand { get; }
@@ -198,11 +206,15 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         StatusText = "Status: Running...";
         PauseButtonText = "Pause Run";
 
-        //haptic feedback on start
+        RouteResetRequested?.Invoke();
+
         Vibrate();
         StartTimer();
         StartAccelerometer();
         StartCompass();
+
+        //Live tracking
+        StartLocationTracking();
 
         await SpeakAsync("Run started");
         //when distance updates text-to-speech to user
@@ -214,7 +226,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     //Stop run
     private async Task StopRun()
     {
-        if (_isRunning)
+        if (!_isRunning)
             return;
         
         _isRunning = false;
@@ -524,6 +536,60 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     }
 
 
+    //Live tracking on map
+    private void StartLocationTracking()
+    {
+        if (_locationTimerRunning)
+            return;
+
+        var dispatcher = Application.Current?.Dispatcher;
+
+        if (dispatcher == null)
+            return;
+
+        _locationTimerRunning = true;
+
+        dispatcher.StartTimer(TimeSpan.FromSeconds(3), () =>
+        {
+            if (!_isRunning)
+            {
+                _locationTimerRunning = false;
+                return false;
+            }
+
+            if (!_isPaused)
+            {
+                _ = UpdateRouteLocationAsync();
+            }
+
+            return true;
+        });
+    }
+
+    private async Task UpdateRouteLocationAsync()
+    {
+        try
+        {
+            var location = await _geolocation.GetLocationAsync(
+                new GeolocationRequest
+                {
+                    DesiredAccuracy = GeolocationAccuracy.Best,
+                    Timeout = TimeSpan.FromSeconds(10)
+                });
+
+            if (location == null)
+                return;
+
+            Latitude = location.Latitude;
+            Longitude = location.Longitude;
+
+            RouteLocationAdded?.Invoke(location);
+        }
+        catch
+        {
+            StatusText = "Status: GPS update failed";
+        }
+    }
     //Property change notification
     public event PropertyChangedEventHandler? PropertyChanged;
 
