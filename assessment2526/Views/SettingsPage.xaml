@@ -11,7 +11,6 @@
 
                 <!-- HEADER -->
                 <Label Text="Settings" 
-                       FontSize="32" 
                        FontAttributes="Bold" 
                        HorizontalOptions="Center" />
             
@@ -23,7 +22,6 @@
                 <VerticalStackLayout Spacing="15">
 
                     <Label Text="Appearance"
-                           FontSize="18"
                            HorizontalOptions="Center"/>
                    
                     <Border BackgroundColor="{DynamicResource PrimaryColor}"
@@ -35,19 +33,51 @@
                             <!-- Selected value -->
                             <Label Text="{Binding SelectedTheme}"
                                    VerticalOptions="Center"
-                                   FontSize="16"/>
+                                   TextColor="White"/>
                            
                             <!-- Dropdown arrow -->
                             <Label Text="▼"
                                    Grid.Column="1"
                                    VerticalOptions="Center"
-                                   FontSize="14" />
+                                   FontSize="14"
+                                   TextColor="White"/>
                                                       
                             <!-- Hidden Picker on top -->
                             <Picker ItemsSource="{Binding Themes}"
                                     SelectedItem="{Binding SelectedTheme}"
                                     Opacity="0.01"
                                     Grid.ColumnSpan="2" />
+                        </Grid>
+                    </Border>
+
+                    <!-- FONT SIZE SETTING -->
+                    <Label Text="Text Size"
+                           HorizontalOptions="Center"
+                           SemanticProperties.Description="Text size setting" />
+
+                    <Border BackgroundColor="{AppThemeBinding Light=#1E88E5, Dark=#1E88E5}"
+                            StrokeShape="RoundRectangle 10"
+                            Padding="10">
+
+                        <Grid ColumnDefinitions="*,Auto">
+
+                            <Label Text="{Binding SelectedFontSize}"
+                                   VerticalOptions="Center"
+                                   SemanticProperties.Description="Currently selected text size"
+                                   TextColor="White"/>
+
+                            <Label Text="▼"
+                                   Grid.Column="1"
+                                   VerticalOptions="Center"
+                                   FontSize="14"
+                                   TextColor="White"/>
+
+                            <Picker ItemsSource="{Binding FontSizeOptions}"
+                                    SelectedItem="{Binding SelectedFontSize}"
+                                    Opacity="0.01"
+                                    Grid.ColumnSpan="2"
+                                    SemanticProperties.Description="Choose text size" />
+
                         </Grid>
                     </Border>
 
@@ -61,20 +91,20 @@
                               ColumnSpacing="10">
 
                             <Label Text="Auto Pause"
-                                   FontSize="18"
                                    Grid.Row="0"
-                                   Grid.Column="0" />
+                                   Grid.Column="0"
+                                   TextColor="White"/>
 
                             <Switch IsToggled="{Binding IsAutoPauseEnabled}"
                                     Grid.Row="0"
                                     Grid.Column="1" />
 
                             <Label Text="Automatically pause the run when no movement is detected."
-                                   FontSize="13"
                                    Opacity="0.7"
                                    Grid.Row="1"
                                    Grid.Column="0"
-                                   Grid.ColumnSpan="2" />
+                                   Grid.ColumnSpan="2"
+                                   TextColor="White"/>
 
                         </Grid>
                     </Border>

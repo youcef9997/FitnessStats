@@ -31,7 +31,6 @@
 
             <Label Text="{Binding StatusText}"
                    TextColor="{DynamicResource TextColor}"
-                   FontSize="16"
                    HorizontalOptions="Center"/>
 
             <Grid ColumnDefinitions="*,*">
@@ -63,14 +62,12 @@
                 </Grid>
 
                 <Button Text="Start Run" 
-                        TextColor="White"
                         Command="{Binding StartCommand}"/>
 
                 <Button Text="{Binding PauseButtonText}"
                         Command="{Binding PauseResumeCommand}"/>
 
                 <Button Text="Stop Run"
-                        TextColor="White"
                         Command="{Binding StopCommand}"
                         BackgroundColor="Red"/>
 

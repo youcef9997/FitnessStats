@@ -10,7 +10,6 @@
 
             <VerticalStackLayout Spacing="5">
                 <Label Text="MyFitnessStats"
-                       FontSize="34"
                        FontAttributes="Bold"
                        HorizontalOptions="Center" />
 
@@ -29,7 +28,6 @@
                 <VerticalStackLayout Spacing="20">
 
                     <Label Text="Ready to start your run?"
-                           FontSize="18"
                            HorizontalOptions="Center" />
 
                     <Button Text="Start Run"

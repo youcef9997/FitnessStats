@@ -1,4 +1,6 @@
 ﻿namespace assessment2526.ViewModels;
+
+
 using assessment2526.Services;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -31,9 +33,34 @@ public partial class SettingsViewModel : INotifyPropertyChanged
         }
     }
 
+    public ObservableCollection<string> FontSizeOptions { get; } =
+    new() { "Small", "Medium", "Large" };
+
+    private string _selectedFontSize = AppSettingsService.FontSizeOption;
+
+    public string SelectedFontSize
+    {
+        get => _selectedFontSize;
+        set
+        {
+            if (_selectedFontSize != value)
+            {
+                _selectedFontSize = value;
+                AppSettingsService.FontSizeOption = value;
+                AccessibilityService.ApplyFontSize(value);
+                OnPropertyChanged();
+            }
+        }
+    }
+
+
+
     public SettingsViewModel()
     {
         SelectedTheme = ThemeService.GetCurrentTheme();
+
+        SelectedFontSize = AppSettingsService.FontSizeOption;
+        AccessibilityService.ApplyFontSize(SelectedFontSize);
     }
 
     private bool _isAutoPauseEnabled = AppSettingsService.AutoPauseEnabled;
