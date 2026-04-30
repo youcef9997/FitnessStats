@@ -66,6 +66,9 @@
                         TextColor="White"
                         Command="{Binding StartCommand}"/>
 
+                <Button Text="{Binding PauseButtonText}"
+                        Command="{Binding PauseResumeCommand}"/>
+
                 <Button Text="Stop Run"
                         TextColor="White"
                         Command="{Binding StopCommand}"

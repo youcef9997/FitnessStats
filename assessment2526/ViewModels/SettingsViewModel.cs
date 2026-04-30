@@ -36,6 +36,22 @@ public partial class SettingsViewModel : INotifyPropertyChanged
         SelectedTheme = ThemeService.GetCurrentTheme();
     }
 
+    private bool _isAutoPauseEnabled = AppSettingsService.AutoPauseEnabled;
+
+    public bool IsAutoPauseEnabled
+    {
+        get => _isAutoPauseEnabled;
+        set
+        {
+            if (_isAutoPauseEnabled != value)
+            {
+                _isAutoPauseEnabled = value;
+                AppSettingsService.AutoPauseEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     private void ApplyTheme()
     {
         ThemeService.ApplyTheme(SelectedTheme);

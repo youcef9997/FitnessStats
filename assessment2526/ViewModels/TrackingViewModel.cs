@@ -102,6 +102,9 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     public ICommand StartCommand { get; }
     public ICommand StopCommand { get; }
 
+    //Command for pause buttor
+    public ICommand PauseResumeCommand { get; }
+
     //Command for toggle between stats and map
     public ICommand ToggleViewCommand => new Command(() =>
     {
@@ -113,6 +116,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     {
         StartCommand = new Command(async () => await StartRun());
         StopCommand = new Command(async () => await StopRun());
+        PauseResumeCommand = new Command(TogglePause);
 
         _connectivity = connectivity;
         _geolocation = geolocation;
@@ -126,7 +130,10 @@ public partial class TrackingViewModel : INotifyPropertyChanged
             return;
 
         _isRunning = true;
+        _isPaused = false;
+
         StatusText = "Status: Running...";
+        PauseButtonText = "Pause Run";
 
         //haptic feedback on start
         Vibrate();
@@ -144,8 +151,14 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     //Stop run
     private async Task StopRun()
     {
+        if (_isRunning)
+            return;
+        
         _isRunning = false;
+        _isPaused = false;
+
         StatusText = "Status: Stopped";
+        PauseButtonText = "Pause Run";
 
         //stronger haptic feedback on stop
         Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(600));
@@ -175,6 +188,41 @@ public partial class TrackingViewModel : INotifyPropertyChanged
                 $"📍 Distance: {DistanceText.Replace("Distance: ", "")}\n" +
                 $"⚡ Speed: {SpeedText.Replace("Speed: ", "")}",
                 "OK");
+        }
+    }
+
+    //Pause button
+    private string _pauseButtonText = "Pause Run";
+
+    public string PauseButtonText
+    {
+        get => _pauseButtonText;
+        set
+        {
+            _pauseButtonText = value;
+            OnPropertyChanged();
+        }
+    }
+
+    //Toggle pause/resume
+    private void TogglePause()
+    {
+        if (!_isRunning)
+            return;
+
+        _isPaused = !_isPaused;
+
+        if (_isPaused)
+        {
+            StatusText = "Status: Paused";
+            PauseButtonText = "Resume Run";
+            Vibrate();
+        }
+        else
+        {
+            StatusText = "Status: Running...";
+            PauseButtonText = "Pause Run";
+            Vibrate();
         }
     }
 
@@ -309,13 +357,19 @@ public partial class TrackingViewModel : INotifyPropertyChanged
 
     private void OnAccelerometerChanged(object? sender, AccelerometerChangedEventArgs e)
     {
-    var data = e.Reading;
+        if (!AppSettingsService.AutoPauseEnabled)
+            return;
 
-    double movement =
+        if (!_isRunning)
+            return;
+
+        var data = e.Reading;
+
+        double movement =
              Math.Sqrt(
-        data.Acceleration.X * data.Acceleration.X +
-        data.Acceleration.Y * data.Acceleration.Y +
-        data.Acceleration.Z * data.Acceleration.Z);
+            data.Acceleration.X * data.Acceleration.X +
+            data.Acceleration.Y * data.Acceleration.Y +
+            data.Acceleration.Z * data.Acceleration.Z);
 
         // threshold to detect movement
         if (movement > 1.2)
