@@ -1,6 +1,4 @@
-# Mobile Computing Assessment 25/26
-
-## MyFitnessStats
+# MyFitnessStats
 ---
 
 MyFitnessStas is a mobile app developed on .NET MAUI 9.0. It is a fitness tracking application to track your running activities.
