@@ -4,6 +4,8 @@ using Microsoft.Maui.Devices;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using assessment2526.Models;
+using assessment2526.Services;
 
 namespace assessment2526.ViewModels;
 
@@ -145,7 +147,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         _isRunning = false;
         StatusText = "Status: Stopped";
 
-        // stronger haptic feedback on stop
+        //stronger haptic feedback on stop
         Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(600));
 
         await SpeakAsync("Run stopped");
@@ -153,7 +155,16 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         //stop accelerometer
         StopAccelerometer();
 
-        //display a summary of the
+        //save session stats to history
+        HistoryService.Runs.Add(new SessionStats
+        {
+            Time = TimeText,
+            Distance = DistanceText,
+            Speed = SpeedText,
+            Date = DateTime.Now
+        });
+
+        //display stats summary
         var page = Application.Current?.Windows[0]?.Page;
 
         if (page != null)
