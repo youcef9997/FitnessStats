@@ -209,6 +209,20 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         if (_isRunning)
             return;
 
+        var permission = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+
+        if (permission != PermissionStatus.Granted)
+        {
+            permission = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+        }
+
+        if (permission != PermissionStatus.Granted)
+        {
+            StatusText = "Status: Cannot start without location permission";
+            await ShowErrorMessage("Location permission is required to start tracking your run.");
+            return;
+        }
+
         _isRunning = true;
         _isPaused = false;
        
@@ -293,6 +307,18 @@ public partial class TrackingViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
+
+    //Start run validation and error handling 
+    private async Task ShowErrorMessage(string message)
+    {
+        var page = Application.Current?.Windows[0]?.Page;
+
+        if (page == null)
+            return;
+
+        await page.DisplayAlert("Error", message, "OK");
+    }
+
 
     //Toggle pause/resume
     private void TogglePause()
@@ -614,6 +640,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         });
     }
 
+    //Update location and calculate distance/speed
     private async Task UpdateRouteLocationAsync()
     {
         try
