@@ -6,6 +6,8 @@
              x:Class="assessment2526.Views.TrackingPage"
              x:DataType="vm:TrackingViewModel"
              Title="TrackingPage">
+    
+    <ScrollView>
 
     <VerticalStackLayout Padding="20" Spacing="15">
 
@@ -24,26 +26,21 @@
             Command="{Binding ShowCompassCommand}" />
 
         </Grid>
-        
-        <!-- TOGGLE BUTTON -->
-            <Button Text="Switch View"
-                    TextColor="White"
-                    Command="{Binding ToggleViewCommand}" />
-                    
-            <!--STATS VIEW -->
-            <VerticalStackLayout IsVisible="{Binding IsStatsVisible}"
+
+        <!--STATS VIEW -->
+        <VerticalStackLayout IsVisible="{Binding IsStatsVisible}"
                                  Spacing="20">
 
             <Border BackgroundColor="{StaticResource CardColor}"
                     StrokeShape="RoundRectangle 25"
                     Padding="25">
-                
+
                 <Label Text="{Binding TimeText}"
                        TextColor="{DynamicResource TextColor}"
                        FontSize="48"
                        HorizontalOptions="Center"/>
-                
-                </Border>
+
+            </Border>
 
             <Label Text="{Binding StatusText}"
                    TextColor="{DynamicResource TextColor}"
@@ -51,50 +48,50 @@
 
             <Grid ColumnDefinitions="*,*">
 
-                    <Border Grid.Column="0" BackgroundColor="{StaticResource CardColor}">
-                        <VerticalStackLayout Padding="15">
-                            
-                            <Label Text="Distance"/>
-                            
-                            <Label Text="{Binding DistanceText}" 
+                <Border Grid.Column="0" BackgroundColor="{StaticResource CardColor}">
+                    <VerticalStackLayout Padding="15">
+
+                        <Label Text="Distance"/>
+
+                        <Label Text="{Binding DistanceText}" 
                                    TextColor="{DynamicResource TextColor}"
                                    FontSize="28"/>
-                        
-                        </VerticalStackLayout>
-                    </Border> 
 
-                    <Border Grid.Column="1" BackgroundColor="{StaticResource CardColor}">
-                        <VerticalStackLayout Padding="15">
-                        
-                            <Label Text="Speed"/>
-                            
-                            <Label Text="{Binding SpeedText}" 
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Column="1" BackgroundColor="{StaticResource CardColor}">
+                    <VerticalStackLayout Padding="15">
+
+                        <Label Text="Speed"/>
+
+                        <Label Text="{Binding SpeedText}" 
                                    TextColor="{DynamicResource TextColor}"
                                    FontSize="28"/>
-                        
-                        </VerticalStackLayout>
-                    </Border>
 
-                </Grid>
+                    </VerticalStackLayout>
+                </Border>
 
-                <Button Text="Start Run" 
+            </Grid>
+
+            <Button Text="Start Run" 
                         Command="{Binding StartCommand}"/>
 
-                <Button Text="{Binding PauseButtonText}"
+            <Button Text="{Binding PauseButtonText}"
                         Command="{Binding PauseResumeCommand}"/>
 
-                <Button Text="Stop Run"
+            <Button Text="Stop Run"
                         Command="{Binding StopCommand}"
                         BackgroundColor="Red"/>
 
-            </VerticalStackLayout>
+        </VerticalStackLayout>
 
-            <!-- MAP VIEW -->
-            <Grid IsVisible="{Binding IsMapVisible}">
-                
-                <maps:Map IsShowingUser="True"/>
-                
-            </Grid>
+        <!-- MAP VIEW -->
+        <Grid IsVisible="{Binding IsMapVisible}">
+
+            <maps:Map IsShowingUser="True"/>
+
+        </Grid>
 
         <VerticalStackLayout IsVisible="{Binding IsCompassVisible}"
                      Spacing="20">
@@ -126,5 +123,5 @@
         </VerticalStackLayout>
 
     </VerticalStackLayout>
-
-    </ContentPage>
+    </ScrollView>
+</ContentPage>

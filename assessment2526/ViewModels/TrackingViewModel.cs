@@ -166,13 +166,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     //Command for pause buttor
     public ICommand PauseResumeCommand { get; }
 
-    //Command for toggle between stats and map
-    public ICommand ToggleViewCommand => new Command(() =>
-    {
-        IsStatsVisible = !IsStatsVisible;
-        IsMapVisible = !IsMapVisible;
-    });
-
+    
     //Commands for view switching
     public ICommand ShowStatsCommand { get; }
     public ICommand ShowMapCommand { get; }
