@@ -55,10 +55,9 @@ Implemented accessibility features include:
 - User-selectable theme settings
 - Adjustable text size setting
 - Global styles for consistent typography
-- Large touch targets for buttons
+- Large touch buttons
 - High-contrast colour combinations
 - Semantic descriptions for key interactive elements
-- Help page with clear instructions
 - Text-to-speech feedback
 - Haptic feedback for important actions
 
