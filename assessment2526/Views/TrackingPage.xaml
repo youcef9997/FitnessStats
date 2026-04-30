@@ -9,7 +9,23 @@
 
     <VerticalStackLayout Padding="20" Spacing="15">
 
-            <!-- TOGGLE BUTTON -->
+        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+
+            <Button Text="Stats"
+            Grid.Column="0"
+            Command="{Binding ShowStatsCommand}" />
+
+            <Button Text="Map"
+            Grid.Column="1"
+            Command="{Binding ShowMapCommand}" />
+
+            <Button Text="Compass"
+            Grid.Column="2"
+            Command="{Binding ShowCompassCommand}" />
+
+        </Grid>
+        
+        <!-- TOGGLE BUTTON -->
             <Button Text="Switch View"
                     TextColor="White"
                     Command="{Binding ToggleViewCommand}" />
@@ -80,6 +96,35 @@
                 
             </Grid>
 
+        <VerticalStackLayout IsVisible="{Binding IsCompassVisible}"
+                     Spacing="20">
+
+            <Border StrokeShape="RoundRectangle 25"
+            Padding="25">
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Label Text="Compass"
+                   Style="{StaticResource Headline}"
+                   SemanticProperties.HeadingLevel="Level1" />
+
+                    <Label Text="{Binding CompassHeadingText}"
+                   FontSize="{DynamicResource TitleFontSize}"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   SemanticProperties.Description="Current compass heading in degrees" />
+
+                    <Label Text="{Binding CompassDirectionText}"
+                   FontSize="{DynamicResource SubtitleFontSize}"
+                   HorizontalOptions="Center"
+                   SemanticProperties.Description="Current compass direction" />
+
+                </VerticalStackLayout>
+
+            </Border>
+
         </VerticalStackLayout>
+
+    </VerticalStackLayout>
 
     </ContentPage>

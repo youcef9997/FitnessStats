@@ -27,9 +27,13 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     private bool _isAccelerometerRunning = false;
     private bool _isPaused = false;
     private int _noMovementSeconds = 0;
+
     //Seconds of no movement to consider pause
     private const int PauseThreshold = 5;
     private bool _timerRunning = false;
+
+    //Compass fields
+    private bool _isCompassRunning = false;
 
     //Properties
     private string _timeText = "Time: 00:00:00";
@@ -97,7 +101,64 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         get;
         set;
     }
-    
+
+    //view switching properties
+    private void ShowStatsView()
+    {
+        IsStatsVisible = true;
+        IsMapVisible = false;
+        IsCompassVisible = false;
+    }
+
+    private void ShowMapView()
+    {
+        IsStatsVisible = false;
+        IsMapVisible = true;
+        IsCompassVisible = false;
+    }
+
+    private void ShowCompassView()
+    {
+        IsStatsVisible = false;
+        IsMapVisible = false;
+        IsCompassVisible = true;
+    }
+
+    //Compass feature
+    private string _compassHeadingText = "Heading: 0°";
+    public string CompassHeadingText
+    {
+        get => _compassHeadingText;
+        set
+        {
+            _compassHeadingText = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private string _compassDirectionText = "Direction: Waiting...";
+    public string CompassDirectionText
+    {
+        get => _compassDirectionText;
+        set
+        {
+            _compassDirectionText = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private bool _isCompassVisible = false;
+    public bool IsCompassVisible
+    {
+        get => _isCompassVisible;
+        set
+        {
+            _isCompassVisible = value;
+            OnPropertyChanged();
+        }
+    }
+
+
     //Commands for start and stop buttons
     public ICommand StartCommand { get; }
     public ICommand StopCommand { get; }
@@ -112,11 +173,19 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         IsMapVisible = !IsMapVisible;
     });
 
+    //Commands for view switching
+    public ICommand ShowStatsCommand { get; }
+    public ICommand ShowMapCommand { get; }
+    public ICommand ShowCompassCommand { get; }
+
     public TrackingViewModel(IConnectivity connectivity, IGeolocation geolocation)
     {
         StartCommand = new Command(async () => await StartRun());
         StopCommand = new Command(async () => await StopRun());
         PauseResumeCommand = new Command(TogglePause);
+        ShowStatsCommand = new Command(ShowStatsView);
+        ShowMapCommand = new Command(ShowMapView);
+        ShowCompassCommand = new Command(ShowCompassView);
 
         _connectivity = connectivity;
         _geolocation = geolocation;
@@ -137,15 +206,15 @@ public partial class TrackingViewModel : INotifyPropertyChanged
 
         //haptic feedback on start
         Vibrate();
-
         StartTimer();
-        await SpeakAsync("Run started");
+        StartAccelerometer();
+        StartCompass();
 
+        await SpeakAsync("Run started");
         //when distance updates text-to-speech to user
         await SpeakAsync($"Distance {DistanceText}");
 
-        //start accelerometer
-        StartAccelerometer();
+        
     }
 
     //Stop run
@@ -165,8 +234,8 @@ public partial class TrackingViewModel : INotifyPropertyChanged
 
         await SpeakAsync("Run stopped");
 
-        //stop accelerometer
         StopAccelerometer();
+        StopCompass();
 
         //save session stats to history
         HistoryService.Runs.Add(new SessionStats
@@ -396,7 +465,71 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         }
     }
 
-   
+    //Compass feature
+    private void StartCompass()
+    {
+        if (_isCompassRunning)
+            return;
+
+        if (!Compass.Default.IsSupported)
+        {
+            CompassHeadingText = "Heading: Not available";
+            CompassDirectionText = "Direction: Compass not supported";
+            return;
+        }
+
+        Compass.Default.ReadingChanged += OnCompassReadingChanged;
+        Compass.Default.Start(SensorSpeed.UI);
+
+        _isCompassRunning = true;
+    }
+
+    private void StopCompass()
+    {
+        if (!_isCompassRunning)
+            return;
+
+        Compass.Default.Stop();
+        Compass.Default.ReadingChanged -= OnCompassReadingChanged;
+
+        _isCompassRunning = false;
+    }
+
+    private void OnCompassReadingChanged(object? sender, CompassChangedEventArgs e)
+    {
+        double heading = e.Reading.HeadingMagneticNorth;
+
+        CompassHeadingText = $"Heading: {heading:F0}°";
+        CompassDirectionText = $"Direction: {GetCompassDirection(heading)}";
+    }
+
+    private string GetCompassDirection(double heading)
+    {
+        if (heading >= 337.5 || heading < 22.5)
+            return "North";
+
+        if (heading >= 22.5 && heading < 67.5)
+            return "North-East";
+
+        if (heading >= 67.5 && heading < 112.5)
+            return "East";
+
+        if (heading >= 112.5 && heading < 157.5)
+            return "South-East";
+
+        if (heading >= 157.5 && heading < 202.5)
+            return "South";
+
+        if (heading >= 202.5 && heading < 247.5)
+            return "South-West";
+
+        if (heading >= 247.5 && heading < 292.5)
+            return "West";
+
+        return "North-West";
+    }
+
+
     //Property change notification
     public event PropertyChangedEventHandler? PropertyChanged;
 
