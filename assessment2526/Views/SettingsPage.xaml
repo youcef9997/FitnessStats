@@ -96,6 +96,7 @@
                                    TextColor="White"/>
 
                             <Switch IsToggled="{Binding IsAutoPauseEnabled}"
+                                    SemanticProperties.Description="Enable or disable automatic pause based on movement detection" 
                                     Grid.Row="0"
                                     Grid.Column="1" />
 

@@ -23,11 +23,13 @@
 
                 <Button Text="Map"
                         Grid.Column="1"
-                        Command="{Binding ShowMapCommand}" />
+                        Command="{Binding ShowMapCommand}" 
+                        SemanticProperties.Description="Show the live route map"/>
 
                 <Button Text="Compass"
                         Grid.Column="2"
-                        Command="{Binding ShowCompassCommand}" />
+                        Command="{Binding ShowCompassCommand}"
+                        SemanticProperties.Description="Show compass"/>
 
             </Grid>
 
