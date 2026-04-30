@@ -6,122 +6,135 @@
              x:Class="assessment2526.Views.TrackingPage"
              x:DataType="vm:TrackingViewModel"
              Title="TrackingPage">
-    
-    <ScrollView>
 
-    <VerticalStackLayout Padding="20" Spacing="15">
-
-        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+    <Grid RowDefinitions="Auto,*"
+          Padding="20"
+          RowSpacing="15">
+        
+        <Grid Grid.Row="0"
+              ColumnDefinitions="*,*,*"
+              ColumnSpacing="8">
 
             <Button Text="Stats"
-            Grid.Column="0"
-            Command="{Binding ShowStatsCommand}" />
+                    Grid.Column="0"
+                    Command="{Binding ShowStatsCommand}" />
 
             <Button Text="Map"
-            Grid.Column="1"
-            Command="{Binding ShowMapCommand}" />
+                    Grid.Column="1"
+                    Command="{Binding ShowMapCommand}" />
 
             <Button Text="Compass"
-            Grid.Column="2"
-            Command="{Binding ShowCompassCommand}" />
+                    Grid.Column="2"
+                    Command="{Binding ShowCompassCommand}" />
 
         </Grid>
 
-        <!--STATS VIEW -->
-        <VerticalStackLayout IsVisible="{Binding IsStatsVisible}"
-                                 Spacing="20">
+        <ScrollView Grid.Row="1"
+                    IsVisible="{Binding IsStatsVisible}">
 
-            <Border BackgroundColor="{StaticResource CardColor}"
-                    StrokeShape="RoundRectangle 25"
-                    Padding="25">
+            <!-- STATS VIEW -->
+            <VerticalStackLayout Spacing="20">
 
-                <Label Text="{Binding TimeText}"
+                <Border BackgroundColor="{StaticResource CardColor}"
+                        StrokeShape="RoundRectangle 25"
+                        Padding="25">
+
+                    <Label Text="{Binding TimeText}"
+                           TextColor="{DynamicResource TextColor}"
+                           FontSize="48"
+                           HorizontalOptions="Center"/>
+
+                </Border>
+
+                <Label Text="{Binding StatusText}"
                        TextColor="{DynamicResource TextColor}"
-                       FontSize="48"
                        HorizontalOptions="Center"/>
 
-            </Border>
+                <Grid ColumnDefinitions="*,*">
 
-            <Label Text="{Binding StatusText}"
-                   TextColor="{DynamicResource TextColor}"
-                   HorizontalOptions="Center"/>
+                    <Border Grid.Column="0" BackgroundColor="{StaticResource CardColor}">
+                        <VerticalStackLayout Padding="15">
 
-            <Grid ColumnDefinitions="*,*">
+                            <Label Text="Distance"/>
 
-                <Border Grid.Column="0" BackgroundColor="{StaticResource CardColor}">
-                    <VerticalStackLayout Padding="15">
-
-                        <Label Text="Distance"/>
-
-                        <Label Text="{Binding DistanceText}" 
+                            <Label Text="{Binding DistanceText}" 
                                    TextColor="{DynamicResource TextColor}"
                                    FontSize="28"/>
 
-                    </VerticalStackLayout>
-                </Border>
+                        </VerticalStackLayout>
+                    </Border>
 
-                <Border Grid.Column="1" BackgroundColor="{StaticResource CardColor}">
-                    <VerticalStackLayout Padding="15">
+                    <Border Grid.Column="1" BackgroundColor="{StaticResource CardColor}">
+                        <VerticalStackLayout Padding="15">
 
-                        <Label Text="Speed"/>
+                            <Label Text="Speed"/>
 
-                        <Label Text="{Binding SpeedText}" 
+                            <Label Text="{Binding SpeedText}" 
                                    TextColor="{DynamicResource TextColor}"
                                    FontSize="28"/>
 
-                    </VerticalStackLayout>
-                </Border>
+                        </VerticalStackLayout>
+                    </Border>
 
-            </Grid>
+                </Grid>
 
-            <Button Text="Start Run" 
+                <Button Text="Start Run" 
                         Command="{Binding StartCommand}"/>
 
-            <Button Text="{Binding PauseButtonText}"
+                <Button Text="{Binding PauseButtonText}"
                         Command="{Binding PauseResumeCommand}"/>
 
-            <Button Text="Stop Run"
+                <Button Text="Stop Run"
                         Command="{Binding StopCommand}"
                         BackgroundColor="Red"/>
 
-        </VerticalStackLayout>
+            </VerticalStackLayout>
 
-        <!-- MAP VIEW -->
-        <Grid IsVisible="{Binding IsMapVisible}">
+        </ScrollView>
 
-            <maps:Map IsShowingUser="True"/>
+        <!-- Map view -->
+        <Grid Grid.Row="1"
+              IsVisible="{Binding IsMapVisible}">
+
+            <maps:Map x:Name="MapView"
+                      IsShowingUser="True"/>
 
         </Grid>
 
-        <VerticalStackLayout IsVisible="{Binding IsCompassVisible}"
-                     Spacing="20">
+        <!-- Scrollable compass view -->
+        <ScrollView Grid.Row="1"
+                    IsVisible="{Binding IsCompassVisible}">
 
-            <Border StrokeShape="RoundRectangle 25"
-            Padding="25">
+            <VerticalStackLayout Spacing="20">
 
-                <VerticalStackLayout Spacing="15">
+                <Border StrokeShape="RoundRectangle 25"
+                        Padding="25">
 
-                    <Label Text="Compass"
-                   Style="{StaticResource Headline}"
-                   SemanticProperties.HeadingLevel="Level1" />
+                    <VerticalStackLayout Spacing="15">
 
-                    <Label Text="{Binding CompassHeadingText}"
-                   FontSize="{DynamicResource TitleFontSize}"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center"
-                   SemanticProperties.Description="Current compass heading in degrees" />
+                        <Label Text="Compass"
+                               Style="{StaticResource Headline}"
+                               SemanticProperties.HeadingLevel="Level1" />
 
-                    <Label Text="{Binding CompassDirectionText}"
-                   FontSize="{DynamicResource SubtitleFontSize}"
-                   HorizontalOptions="Center"
-                   SemanticProperties.Description="Current compass direction" />
+                        <Label Text="{Binding CompassHeadingText}"
+                               FontSize="{DynamicResource TitleFontSize}"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               SemanticProperties.Description="Current compass heading in degrees" />
 
-                </VerticalStackLayout>
+                        <Label Text="{Binding CompassDirectionText}"
+                               FontSize="{DynamicResource SubtitleFontSize}"
+                               HorizontalOptions="Center"
+                               SemanticProperties.Description="Current compass direction" />
 
-            </Border>
+                    </VerticalStackLayout>
 
-        </VerticalStackLayout>
+                </Border>
 
-    </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+            
+        </ScrollView>
+    
+    </Grid>
+    
 </ContentPage>
