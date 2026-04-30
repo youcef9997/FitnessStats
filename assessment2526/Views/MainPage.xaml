@@ -38,7 +38,8 @@
                     <Button Text="Settings"
                             Command="{Binding GoToSettingsCommand}" />
 
-                    <Button Text="View History" />
+                    <Button Text="View History"
+                            Command="{Binding GoToHistoryCommand}"/>
 
                 </VerticalStackLayout>
             </Border>

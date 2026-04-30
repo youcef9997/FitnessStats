@@ -7,6 +7,10 @@ public class MainViewModel
 {
     public ICommand StartRunCommand { get; }
     public ICommand GoToSettingsCommand { get; }
+
+    public ICommand GoToHistoryCommand { get; }
+
+
     public MainViewModel()
     {
         StartRunCommand = new Command(async () =>
@@ -26,6 +30,16 @@ public class MainViewModel
             if (page != null)
             {
                 await page.Navigation.PushAsync(new SettingsPage());
+            }
+        });
+
+        GoToHistoryCommand = new Command(async () =>
+        {
+            var page = Application.Current?.Windows[0]?.Page;
+
+            if (page != null)
+            {
+                await page.Navigation.PushAsync(new HistoryPage());
             }
         });
     }
