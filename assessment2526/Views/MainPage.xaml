@@ -39,6 +39,10 @@
                     <Button Text="View History"
                             Command="{Binding GoToHistoryCommand}"/>
 
+                    <Button Text="Help"
+                            Command="{Binding GoToHelpCommand}"
+                            SemanticProperties.Description="Open help and user instructions" /> 
+
                 </VerticalStackLayout>
             </Border>
 

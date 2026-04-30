@@ -10,6 +10,8 @@ public class MainViewModel
 
     public ICommand GoToHistoryCommand { get; }
 
+    public ICommand GoToHelpCommand { get; }
+
 
     public MainViewModel()
     {
@@ -40,6 +42,16 @@ public class MainViewModel
             if (page != null)
             {
                 await page.Navigation.PushAsync(new HistoryPage());
+            }
+        });
+
+        GoToHelpCommand = new Command(async () =>
+        {
+            var page = Application.Current?.Windows[0]?.Page;
+
+            if (page != null)
+            {
+                await page.Navigation.PushAsync(new HelpPage());
             }
         });
     }
