@@ -8,27 +8,48 @@
              Title="TrackingPage">
 
     <Grid RowDefinitions="Auto,*"
-          Padding="20"
-          RowSpacing="15">
+      Padding="20"
+      RowSpacing="15">
+
+        <VerticalStackLayout Grid.Row="0"
+                             Spacing="6">
+
+            <Grid ColumnDefinitions="*,*,*"
+                  ColumnSpacing="8">
+
+                <Button Text="Stats"
+                        Grid.Column="0"
+                        Command="{Binding ShowStatsCommand}" />
+
+                <Button Text="Map"
+                        Grid.Column="1"
+                        Command="{Binding ShowMapCommand}" />
+
+                <Button Text="Compass"
+                        Grid.Column="2"
+                        Command="{Binding ShowCompassCommand}" />
+
+            </Grid>
+
+            <Border StrokeShape="RoundRectangle 15"
+                    Padding="12"
+                    BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#1E1E1E}">
+
+                <Border.GestureRecognizers>
+                    <SwipeGestureRecognizer Direction="Left"
+                                            Command="{Binding NextViewCommand}" />
+                    <SwipeGestureRecognizer Direction="Right"
+                                            Command="{Binding PreviousViewCommand}" />
+                </Border.GestureRecognizers>
+
+                <Label Text="Swipe here left or right to switch views"
+                       HorizontalOptions="Center"
+                       Opacity="0.75"
+                       SemanticProperties.Description="Swipe this area left or right to switch between stats, map, and compass" />
+
+            </Border>
+        </VerticalStackLayout>
         
-        <Grid Grid.Row="0"
-              ColumnDefinitions="*,*,*"
-              ColumnSpacing="8">
-
-            <Button Text="Stats"
-                    Grid.Column="0"
-                    Command="{Binding ShowStatsCommand}" />
-
-            <Button Text="Map"
-                    Grid.Column="1"
-                    Command="{Binding ShowMapCommand}" />
-
-            <Button Text="Compass"
-                    Grid.Column="2"
-                    Command="{Binding ShowCompassCommand}" />
-
-        </Grid>
-
         <ScrollView Grid.Row="1"
                     IsVisible="{Binding IsStatsVisible}">
 

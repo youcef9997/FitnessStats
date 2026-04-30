@@ -177,12 +177,15 @@ public partial class TrackingViewModel : INotifyPropertyChanged
 
     //Command for pause buttor
     public ICommand PauseResumeCommand { get; }
-
     
     //Commands for view switching
     public ICommand ShowStatsCommand { get; }
     public ICommand ShowMapCommand { get; }
     public ICommand ShowCompassCommand { get; }
+
+    //Gesture commands for swiping between views
+    public ICommand NextViewCommand { get; }
+    public ICommand PreviousViewCommand { get; }
 
     public TrackingViewModel(IConnectivity connectivity, IGeolocation geolocation)
     {
@@ -192,6 +195,8 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         ShowStatsCommand = new Command(ShowStatsView);
         ShowMapCommand = new Command(ShowMapView);
         ShowCompassCommand = new Command(ShowCompassView);
+        NextViewCommand = new Command(ShowNextView);
+        PreviousViewCommand = new Command(ShowPreviousView);
 
         _connectivity = connectivity;
         _geolocation = geolocation;
@@ -343,6 +348,39 @@ public partial class TrackingViewModel : INotifyPropertyChanged
 
             return true;
         });
+    }
+
+    //Gesture control
+    private void ShowNextView()
+    {
+        if (IsStatsVisible)
+        {
+            ShowMapView();
+        }
+        else if (IsMapVisible)
+        {
+            ShowCompassView();
+        }
+        else
+        {
+            ShowStatsView();
+        }
+    }
+
+    private void ShowPreviousView()
+    {
+        if (IsStatsVisible)
+        {
+            ShowCompassView();
+        }
+        else if (IsCompassVisible)
+        {
+            ShowMapView();
+        }
+        else
+        {
+            ShowStatsView();
+        }
     }
 
     //Location with connectivity check
