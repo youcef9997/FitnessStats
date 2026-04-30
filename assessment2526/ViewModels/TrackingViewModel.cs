@@ -19,6 +19,10 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     private double _latitude;
     private double _longitude;
 
+    //Live disance and speed updates
+    private Location? _lastLocation;
+    private double _totalDistanceKm = 0;
+
     //Connectivity and geolocation
     private readonly IConnectivity _connectivity;
     private readonly IGeolocation _geolocation;
@@ -202,6 +206,12 @@ public partial class TrackingViewModel : INotifyPropertyChanged
 
         _isRunning = true;
         _isPaused = false;
+       
+        _lastLocation = null;
+        _totalDistanceKm = 0;
+
+        DistanceText = "Distance: 0.00 km";
+        SpeedText = "Speed: 0.0 km/h";
 
         StatusText = "Status: Running...";
         PauseButtonText = "Pause Run";
@@ -583,6 +593,32 @@ public partial class TrackingViewModel : INotifyPropertyChanged
             Latitude = location.Latitude;
             Longitude = location.Longitude;
 
+            // Calculate distance from previous GPS point
+            if (_lastLocation != null)
+            {
+                double distanceFromLastPoint =
+                    _lastLocation.CalculateDistance(location, DistanceUnits.Kilometers);
+
+                // Ignore very tiny GPS jumps/noise
+                if (distanceFromLastPoint > 0.005)
+                {
+                    _totalDistanceKm += distanceFromLastPoint;
+                }
+            }
+
+            _lastLocation = location;
+
+            DistanceText = $"Distance: {_totalDistanceKm:F2} km";
+
+            // Calculate average speed using elapsed time
+            double elapsedHours = _seconds / 3600.0;
+
+            if (elapsedHours > 0)
+            {
+                double averageSpeed = _totalDistanceKm / elapsedHours;
+                SpeedText = $"Speed: {averageSpeed:F1} km/h";
+            }
+            //Send location to map route drawing
             RouteLocationAdded?.Invoke(location);
         }
         catch
@@ -590,6 +626,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
             StatusText = "Status: GPS update failed";
         }
     }
+
     //Property change notification
     public event PropertyChangedEventHandler? PropertyChanged;
 
