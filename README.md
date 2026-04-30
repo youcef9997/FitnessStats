@@ -45,4 +45,20 @@ Used to provide spoken feedback such as announcing when a run starts or stops.
 
 The app includes map functionality to show the user's current location during a run.
 
+---
+
+## Accessibility Features
+
+Implemented accessibility features include:
+
+- Light mode, dark mode, and system theme support
+- User-selectable theme settings
+- Adjustable text size setting
+- Global styles for consistent typography
+- Large touch targets for buttons
+- High-contrast colour combinations
+- Semantic descriptions for key interactive elements
+- Help page with clear instructions
+- Text-to-speech feedback
+- Haptic feedback for important actions
 
