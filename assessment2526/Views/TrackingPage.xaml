@@ -44,7 +44,7 @@
                                             Command="{Binding PreviousViewCommand}" />
                 </Border.GestureRecognizers>
 
-                <Label Text="Swipe here left or right to switch views"
+                <Label Text="Swipe left or right"
                        HorizontalOptions="Center"
                        Opacity="0.75"
                        SemanticProperties.Description="Swipe this area left or right to switch between stats, map, and compass" />
