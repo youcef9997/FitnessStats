@@ -10,9 +10,6 @@ The app allows you:
 #### 2. Track live session info 
 #### 3. View location/map info
 #### 4. Receive hardware feedback
-
-   Based on specific events within the app
-
 #### 5. Customise some accessibility settings
 #### 6. View a history of your runs
 
@@ -20,7 +17,21 @@ The app allows you:
 
 The purpose of MyFitnessStats is to provide a clean and accesible fitness experience.
 
+## Main Features
 
+- Run tracking with timer, distance, and speed
+- Live GPS map route tracking
+- Compass view with heading and direction
+- Run summary after stopping a session
+- Run history page
+- Light, dark, and system theme support
+- Adjustable text size for accessibility
+- Auto-pause using accelerometer movement detection
+- Manual pause/resume
+- Text-to-speech and vibration feedback
+- Help page with user instructions
+
+  
 ## Hardware Features
 
 The application uses multiple mobile hardware features:
@@ -37,27 +48,16 @@ Used for movement detection and auto-pause behaviour. If no movement is detected
 
 Used to provide physical feedback when the user starts, pauses, resumes, or stops a run.
 
-### 4. Text-to-Speech
+### 4. Compass
 
-Used to provide spoken feedback such as announcing when a run starts or stops.
-
-### 5. Map Integration
-
-The app includes map functionality to show the user's current location during a run.
-
+### 5. Text-to-speech
 ---
 
-## Accessibility Features
+The app follows the MVVM pattern:
 
-Implemented accessibility features include:
+- `Views` — XAML pages
+- `ViewModels` — app logic and commands
+- `Models` — data classes
+- `Services` — settings, accessibility, and history logic
 
-- Light mode, dark mode, and system theme support
-- User-selectable theme settings
-- Adjustable text size setting
-- Global styles for consistent typography
-- Large touch buttons
-- High-contrast colour combinations
-- Semantic descriptions for key interactive elements
-- Text-to-speech feedback
-- Haptic feedback for important actions
-
+The app demonstrates UI/UX design, accessibility features, mobile hardware integration, functionality and error handling.
