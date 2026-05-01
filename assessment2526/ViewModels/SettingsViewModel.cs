@@ -61,6 +61,8 @@ public partial class SettingsViewModel : INotifyPropertyChanged
 
         SelectedFontSize = AppSettingsService.FontSizeOption;
         AccessibilityService.ApplyFontSize(SelectedFontSize);
+
+        SelectedDistanceUnit = AppSettingsService.DistanceUnit;
     }
 
     private bool _isAutoPauseEnabled = AppSettingsService.AutoPauseEnabled;
@@ -82,5 +84,24 @@ public partial class SettingsViewModel : INotifyPropertyChanged
     private void ApplyTheme()
     {
         ThemeService.ApplyTheme(SelectedTheme);
+    }
+
+    public ObservableCollection<string> DistanceUnits { get; } =
+        new() { "Kilometres", "Miles" };
+
+    private string _selectedDistanceUnit = AppSettingsService.DistanceUnit;
+
+    public string SelectedDistanceUnit
+    {
+        get => _selectedDistanceUnit;
+        set
+        {
+            if (_selectedDistanceUnit != value)
+            {
+                _selectedDistanceUnit = value;
+                AppSettingsService.DistanceUnit = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

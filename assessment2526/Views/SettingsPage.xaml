@@ -26,7 +26,8 @@
                    
                     <Border BackgroundColor="{DynamicResource PrimaryColor}"
                             StrokeShape="RoundRectangle 10"
-                            Padding="10">
+                            Padding="10"
+                            HorizontalOptions="Fill">
 
                         <Grid ColumnDefinitions="*,Auto">
 
@@ -110,6 +111,51 @@
                         </Grid>
                     </Border>
 
+                    <!-- DISTANCE UNIT SETTING -->
+                    <Border StrokeShape="RoundRectangle 20"
+                            Padding="20">
+
+                        <VerticalStackLayout Spacing="15">
+
+                            <Label Text="Distance Unit"
+                                   FontAttributes="Bold"
+                                   FontSize="{DynamicResource SubtitleFontSize}"
+                                   SemanticProperties.HeadingLevel="Level2" />
+
+                            <Label Text="Choose whether distance and speed are shown in kilometres or miles."
+                                   Opacity="0.7" />
+
+                            <Border BackgroundColor="{AppThemeBinding Light=#1E88E5, Dark=#1E88E5}"
+                                    StrokeShape="RoundRectangle 10"
+                                    Padding="10"
+                                    HorizontalOptions="Fill">
+
+                                <Grid ColumnDefinitions="*,Auto"
+                                      HorizontalOptions="Fill">
+
+                                    <Label Text="{Binding SelectedDistanceUnit}"
+                                           VerticalOptions="Center"
+                                           TextColor="White"
+                                           FontSize="{DynamicResource BodyFontSize}"
+                                           SemanticProperties.Description="Selected distance unit" />
+
+                                    <Label Text="▼"
+                                           Grid.Column="1"
+                                           VerticalOptions="Center"
+                                           TextColor="White" />
+
+                                    <Picker ItemsSource="{Binding DistanceUnits}"
+                                            SelectedItem="{Binding SelectedDistanceUnit}"
+                                            Opacity="0.01"
+                                            Grid.ColumnSpan="2"
+                                            SemanticProperties.Description="Choose distance unit" />
+
+                                </Grid>
+                            </Border>
+
+                        </VerticalStackLayout>
+                    </Border>
+
 
                 </VerticalStackLayout>
             
@@ -120,4 +166,4 @@
         
   </ScrollView>
     
-    </ContentPage>
+</ContentPage>

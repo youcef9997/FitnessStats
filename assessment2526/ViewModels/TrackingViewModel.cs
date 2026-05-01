@@ -229,8 +229,7 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         _lastLocation = null;
         _totalDistanceKm = 0;
 
-        DistanceText = "Distance: 0.00 km";
-        SpeedText = "Speed: 0.0 km/h";
+        UpdateDistanceAndSpeedText();
 
         StatusText = "Status: Running...";
         PauseButtonText = "Pause Run";
@@ -248,8 +247,6 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         await SpeakAsync("Run started");
         //when distance updates text-to-speech to user
         await SpeakAsync($"Distance {DistanceText}");
-
-        
     }
 
     //Stop run
@@ -371,6 +368,8 @@ public partial class TrackingViewModel : INotifyPropertyChanged
             _seconds++;
 
             TimeText = $"Time: {TimeSpan.FromSeconds(_seconds):hh\\:mm\\:ss}";
+
+            UpdateDistanceAndSpeedText();
 
             return true;
         });
@@ -684,16 +683,8 @@ public partial class TrackingViewModel : INotifyPropertyChanged
 
             _lastLocation = location;
 
-            DistanceText = $"Distance: {_totalDistanceKm:F2} km";
+            UpdateDistanceAndSpeedText();
 
-            // Calculate average speed using elapsed time
-            double elapsedHours = _seconds / 3600.0;
-
-            if (elapsedHours > 0)
-            {
-                double averageSpeed = _totalDistanceKm / elapsedHours;
-                SpeedText = $"Speed: {averageSpeed:F1} km/h";
-            }
             //Send location to map route drawing
             RouteLocationAdded?.Invoke(location);
         }
@@ -713,6 +704,43 @@ public partial class TrackingViewModel : INotifyPropertyChanged
         {
             StatusText = "Status: GPS update failed";
             System.Diagnostics.Debug.WriteLine($"GPS error: {ex.Message}");
+        }
+    }
+
+    // km to miles conversion
+    private void UpdateDistanceAndSpeedText()
+    {
+        double elapsedHours = _seconds / 3600.0;
+
+        if (AppSettingsService.DistanceUnit == "Miles")
+        {
+            double totalMiles = _totalDistanceKm * 0.621371;
+
+            DistanceText = $"Distance: {totalMiles:F2} miles";
+
+            if (elapsedHours > 0)
+            {
+                double averageMph = totalMiles / elapsedHours;
+                SpeedText = $"Speed: {averageMph:F1} mph";
+            }
+            else
+            {
+                SpeedText = "Speed: 0.0 mph";
+            }
+        }
+        else
+        {
+            DistanceText = $"Distance: {_totalDistanceKm:F2} km";
+
+            if (elapsedHours > 0)
+            {
+                double averageKmh = _totalDistanceKm / elapsedHours;
+                SpeedText = $"Speed: {averageKmh:F1} km/h";
+            }
+            else
+            {
+                SpeedText = "Speed: 0.0 km/h";
+            }
         }
     }
 
