@@ -471,25 +471,34 @@ public partial class TrackingViewModel : INotifyPropertyChanged
     {
         try
         {
+            await TextToSpeech.Default.SpeakAsync(text);
+        }
+        catch (FeatureNotSupportedException)
+        {
+            System.Diagnostics.Debug.WriteLine("Text-to-speech is not supported on this device.");
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Text-to-speech error: {ex.Message}");
+        }
+    }
+
+    //Haptic feedback function
+    private static void Vibrate()
+    {
+        try
+        {
             Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(300));
         }
         catch (FeatureNotSupportedException)
         {
-            System.Diagnostics.Debug.WriteLine("Sorry, vibration not working.");
+            System.Diagnostics.Debug.WriteLine("Vibration is not supported on this device.");
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Vibration error: {ex.Message}");
         }
-    }
-
-
-    //Haptic feedback function
-    public void Vibrate()
-    {
-        Vibration.Default.Vibrate(TimeSpan.FromMilliseconds(300));
-
-    }
+        }
 
     //Accelerometer 
     private void StartAccelerometer()
